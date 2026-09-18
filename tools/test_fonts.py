@@ -19,3 +19,16 @@ def test_licentievermelding_aanwezig():
     tekst = (FONTS / "README.md").read_text(encoding="utf-8")
     assert "SIL Open Font License" in tekst
     assert "Bebas Neue" in tekst and "Open Sans" in tekst
+
+
+@pytest.mark.parametrize("naam, notice", [
+    ("OFL-bebas-neue.txt", "Dharma Type"),
+    ("OFL-open-sans.txt", "Open Sans"),
+])
+def test_licentietekst_meegeleverd(naam, notice):
+    """De OFL eist dat elke kopie de copyright-notice én de volledige licentietekst bevat."""
+    pad = FONTS / naam
+    assert pad.exists(), f"{naam} ontbreekt"
+    tekst = pad.read_text(encoding="utf-8")
+    assert "SIL OPEN FONT LICENSE Version 1.1" in tekst
+    assert "Copyright" in tekst and notice in tekst

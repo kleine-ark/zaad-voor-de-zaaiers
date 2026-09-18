@@ -50,6 +50,19 @@ BEELDEN = {
 }
 
 
+# Verwachte maat van elk bronbeeld in het origineel (vóór rotatie); wijkt die af, dan is de
+# koppeling (pagina, index) in BEELDEN waarschijnlijk verschoven door een nieuwe export.
+BRONMATEN = {
+    "hero-zaaier.jpg": (1725, 2609), "maarten.jpg": (560, 374), "bijbel-markeerstift.jpg": (1728, 1152),
+    "logo-werkers-in-de-wijngaard.png": (292, 53), "logo-hebron-missie.png": (324, 126),
+    "hand-zaden.jpg": (1296, 1936), "hand-planten.jpg": (960, 1365), "hand-graan.jpg": (1730, 2457),
+    "bijbel-korenveld.jpg": (1550, 2193), "biddende-man.jpg": (1200, 1690), "zakken-graan.jpg": (1200, 1696),
+    "logo-anbi.png": (231, 183), "logo-zaad-voor-de-zaaier.png": (615, 410), "rijstveld.jpg": (1549, 1033),
+    "handen-hemel.jpg": (1200, 1702), "boom.jpg": (922, 1383), "maaidorser.jpg": (1200, 1697),
+    "luchtfoto-veld.jpg": (2163, 1446), "stefan.jpg": (776, 516),
+}
+
+
 def verklein(im: Image.Image, max_zijde: int | None) -> Image.Image:
     if not max_zijde or max(im.size) <= max_zijde:
         return im
@@ -77,6 +90,9 @@ def maak_beelden(origineel: Path) -> None:
     for (pagina, index), (naam, max_zijde, achtergrond, rotatie) in BEELDEN.items():
         bron = reader.pages[pagina - 1].images[index]
         im = Image.open(io.BytesIO(bron.data))
+        if im.size != BRONMATEN[naam]:
+            raise SystemExit(f"{naam}: bronbeeld op pagina {pagina} is {im.size}, verwacht {BRONMATEN[naam]}; "
+                             "controleer de koppeling in BEELDEN")
         if rotatie == 90:
             im = im.transpose(Image.Transpose.ROTATE_270)  # 270° tegen de klok = 90° met de klok
         im = verklein(im, max_zijde)
@@ -145,8 +161,9 @@ def maak_brochure(origineel: Path, max_zijde: int = 1200, kwaliteit: int = 70) -
                 zet_jpeg_stream(doc, smask, mask, kwaliteit, grijs=True)
     BROCHURE.parent.mkdir(parents=True, exist_ok=True)
     doc.save(str(BROCHURE), garbage=4, deflate=True, deflate_images=True, deflate_fonts=True)
+    paginas = doc.page_count
     doc.close()
-    print(f"{BROCHURE.name:34s} {BROCHURE.stat().st_size / 1e6:.2f} MB, {len(fitz.open(str(BROCHURE)))} pagina's")
+    print(f"{BROCHURE.name:34s} {BROCHURE.stat().st_size / 1e6:.2f} MB, {paginas} pagina's")
 
 
 def main() -> int:

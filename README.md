@@ -55,3 +55,25 @@ De tekst volgt de brochure, met deze afspraken: de naam is overal "Zaad voor de 
 tikfouten uit de brochure zijn hersteld; bijbelcitaten zijn inhoudelijk ongewijzigd. De
 download-PDF is de bestaande brochure en bevat die correcties niet. De onderbouwing onder
 "Grondslag" staat ingeklapt; bij afdrukken wordt hij in moderne browsers meegenomen.
+
+Wat er ten opzichte van de brochure is aangepast, zodat de eigenaren het kunnen nalopen:
+
+- Weggelaten: de interne werknotitie bovenaan brochurepagina 14; dubbel voorkomende citaten
+  (2 Kor. 9:10, Rom. 12:4–5, 1 Kor. 12:21, Psalm 1:3) staan één keer.
+- Toegevoegd: de verwijzing "Psalm 126:6" bij het citaat op de fiscale pagina (de brochure
+  noemt de vindplaats niet); de inleidende vraag boven de bijbelse onderbouwing ("Wat zegt
+  Gods Woord over 1. wie we moeten zijn en 2. wat we moeten doen?"); in de voettekst "in
+  samenwerking met Stichting Hebron Missie".
+- Verwijzingen naar "de volgende pagina" zijn herschreven naar deze webpagina.
+- Taalcorrecties: "Eein" → "Een", "betekend" → "betekent", "opleverd" → "oplevert",
+  "vind u" → "vindt u", "luid" → "luidt", "hiemee" → "hiermee", "ondersteund" → "ondersteunt",
+  "Hier word" → "Hier wordt", "bedieninsvarianten" → "bedieningsvarianten", "verspreid daarmee"
+  → "verspreidt daarmee", "word vergeleken" → "wordt vergeleken", "gebeurd er" → "gebeurt er",
+  "omdat dat wij geven" → "omdat wij geven", "1 lichaam" → "één lichaam", "evangelisatie
+  materiaal/projecten/acties" aaneengeschreven, "Moslims" → "moslims", "Matth.55:14" →
+  "Matth. 5:14", "1 kor." → "1 Kor.".
+- Twee foto's (Stefan, rijstveld) staan in de brochure gespiegeld; de site toont de
+  oorspronkelijke foto.
+
+Snelle controle op telefoonbreedte na wijzigingen (in de browserconsole op 375 px):
+`document.documentElement.scrollWidth <= document.documentElement.clientWidth` moet `true` zijn.

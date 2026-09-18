@@ -29,6 +29,7 @@
   --groen: #5a8a2a;
   --roodbruin: #8b3a1e;
   --tekst: #2b2118;
+  --rood: #c8241a;
   --kopletter: 'Bebas Neue', 'Arial Narrow', Impact, sans-serif;
   --broodletter: 'Open Sans', 'Segoe UI', Arial, sans-serif;
   --radius: 14px;
@@ -87,6 +88,7 @@ blockquote { margin: 0; }
 
 /* Bijbelcitaten in lopende tekst: citaat roodbruin, verwijzing bruin en vet. */
 q { quotes: '“' '”'; color: var(--roodbruin); }
+em { font-style: normal; text-decoration: underline; text-decoration-thickness: .08em; text-underline-offset: .1em; }
 .verw { font-style: normal; color: var(--bruin); font-weight: 600; font-size: .9em; white-space: nowrap; }
 .kop--groen { color: var(--groen); }
 .intro { font-size: 1.1em; font-weight: 600; margin-bottom: 1.5rem; }
@@ -101,7 +103,7 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
 .cirkel {
   display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
   width: 2.5rem; height: 2.5rem; border-radius: 50%;
-  background: var(--bruin); color: #fff; font-family: var(--kopletter); font-size: 1.6rem; line-height: 1;
+  background: var(--bruin); color: var(--papier); font-family: var(--kopletter); font-size: 1.6rem; line-height: 1;
 }
 .badge {
   display: inline-block; background: var(--geel); color: var(--bruin);
@@ -163,6 +165,7 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
 /* ===== Navigatie ===== */
 .nav { position: sticky; top: 0; z-index: 50; background: var(--bruin); }
 .nav__wrap { display: flex; align-items: center; gap: 1rem; min-height: var(--nav-hoogte); }
+.nav__wrap > nav { min-width: 0; }
 .nav__logo { flex-shrink: 0; background: var(--creme); border-radius: 8px; padding: 4px 8px; }
 .nav__logo img { height: 36px; width: auto; }
 .nav__links {
@@ -176,6 +179,10 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
   color: var(--creme); text-decoration: none;
 }
 .nav__links a:hover { border-bottom-color: var(--geel); }
+/* Op smalle schermen: rechts uitvloeien als teken dat de rij verder scrolt; de padding houdt het laatste item leesbaar. */
+@media (max-width: 719px) {
+  .nav__links { padding-right: 1.25rem; -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 1.25rem), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 1.25rem), transparent); }
+}
 
 /* ===== Hero ===== */
 .hero { position: relative; min-height: 92vh; display: flex; align-items: flex-end; overflow: hidden; color: var(--creme); scroll-margin-top: var(--nav-hoogte); }
@@ -202,7 +209,7 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
 .tweeledig li { display: flex; gap: 1rem; background: var(--creme); border-radius: var(--radius); padding: 1.25rem 1.5rem; box-shadow: var(--schaduw); }
 .tweeledig li > div > p:last-child { margin-bottom: 0; }
 .noot { display: flex; gap: .75rem; align-items: flex-start; font-weight: 600; margin: 0 0 2rem; }
-.kruis { color: #c8241a; font-size: 1.8em; line-height: 1; }
+.kruis { color: var(--rood); font-size: 1.8em; line-height: 1; }
 .concreet__kop {
   color: var(--groen); font-size: clamp(2rem, 4vw, 2.6rem);
   text-decoration: underline; text-decoration-color: var(--geel); text-decoration-thickness: .15em; text-underline-offset: .12em;
@@ -251,7 +258,7 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
 .conclusie__label { font-family: var(--kopletter); font-size: 1.4rem; font-weight: 400; letter-spacing: .1em; text-transform: uppercase; color: var(--geel); margin-right: .4em; }
 
 /* Rustpunt met donkere foto: vier lei-vlakken onder elkaar, gecentreerd. */
-#rust-gemeenschap { background: #2f3236; }
+#rust-gemeenschap { background: var(--tekst); }
 
 /* Geven */
 .geven__intro { display: inline-block; font-family: var(--kopletter); font-size: 1.3rem; letter-spacing: .03em; text-transform: uppercase; margin: 1rem 0 1.5rem; }
@@ -280,7 +287,7 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
 .gegevens__lijst dt { font-family: var(--kopletter); font-size: 1.15rem; letter-spacing: .04em; text-transform: uppercase; color: var(--geel); }
 .gegevens__lijst dd { margin: 0; }
 .gegevens__iban { font-family: var(--kopletter); font-size: clamp(1.6rem, 4vw, 2.4rem); letter-spacing: .06em; line-height: 1; user-select: all; }
-.gegevens__anbi { width: 160px; background: #fff; border-radius: 8px; padding: 6px; }
+.gegevens__anbi { width: 160px; background: var(--papier); border-radius: 8px; padding: 6px; }
 @media (max-width: 480px) {
   .gegevens__lijst { grid-template-columns: 1fr; gap: .1rem; }
   .gegevens__lijst dd { margin-bottom: .8rem; }
@@ -295,6 +302,7 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
 @media (min-width: 720px) { .boom__grid { grid-template-columns: repeat(3, 1fr); } }
 .boom__band q { color: var(--geel); }
 .boom__band .verw { color: var(--creme); }
+.boom__band .boom__noot { font-size: .8em; opacity: .85; margin-top: .3em; }
 
 /* Rustpunt sikkel: twee beelden naast elkaar. */
 .duo { display: grid; }
@@ -323,7 +331,7 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
 .grondslag__slot { text-align: center; max-width: 48rem; margin: 2.5rem auto 0; color: var(--bruin); }
 .grondslag__slot p { margin-bottom: .8em; }
 .grondslag__slot q { color: var(--roodbruin); }
-.grondslag__lied { color: var(--groen); }
+.grondslag__lied { color: var(--bruin); }
 .bergen { display: block; width: 100%; height: clamp(90px, 18vw, 220px); margin-top: 1rem; }
 .bergen path { fill: var(--bruin); }
 
@@ -354,5 +362,14 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
   .hero__kop h1 { color: var(--bruin); }
   .vlak--donker { background: none; color: var(--tekst); border: 1px solid var(--bruin); }
   .vlak--donker q { color: var(--roodbruin); }
+  .kopbalk, .vlak--bruin, .gegevens, .boom__band, .projectkop, .voet, .conclusie,
+  .kaart, .vlak--creme, .vlak--lei, .vlak--oranje, .plan__kaart, .tweeledig li { background: none; color: var(--tekst); border: 1px solid var(--bruin); box-shadow: none; }
+  .kopbalk, .projectkop h2, .gegevens h2, .gegevens h3, .gegevens__lijst dt, .conclusie__label, .projectkop__sub,
+  .vlak--bruin .verw, .boom__band .verw { color: var(--bruin); }
+  .vlak--bruin q, .boom__band q { color: var(--roodbruin); }
+  .voet a { color: var(--roodbruin); }
+  .cirkel { background: none; color: var(--bruin); border: 2px solid var(--bruin); }
+  .badge, .uitlichting, .inklap summary { background: none; border: 1px solid var(--bruin); }
+  .gegevens__anbi { background: none; }
   a[href^="http"]::after { content: ' (' attr(href) ')'; font-size: .85em; }
 }

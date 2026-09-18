@@ -106,7 +106,27 @@ def test_secties_in_volgorde_en_footer_erna(dom):
 
 
 def test_een_h2_per_sectie(dom):
-    assert sum(1 for t, _ in dom.tags if t == "h2") == len(SECTIE_IDS) - 1  # de hero heeft de h1
+    """Elke sectie na de hero heeft precies één h2; de hero heeft de h1."""
+    starts = [i for i, (t, a) in enumerate(dom.tags) if a.get("id") in SECTIE_IDS]
+    footer = next(i for i, (t, _) in enumerate(dom.tags) if t == "footer")
+    grenzen = starts + [footer]
+    for begin, eind in zip(grenzen, grenzen[1:]):
+        sid = dom.tags[begin][1]["id"]
+        h2 = sum(1 for t, _ in dom.tags[begin:eind] if t == "h2")
+        assert h2 == (0 if sid == "top" else 1), f"sectie #{sid} heeft {h2} h2-koppen"
+
+
+def test_alleen_relatieve_bronnen_en_toegestane_hosts(dom):
+    """Geen externe scripts, stijlen of beelden; links alleen intern of naar de twee stichtingen."""
+    toegestaan = ("https://www.hebronmissie.nl", "https://www.werkersindewijngaard.nl")
+    for tag, a in dom.tags:
+        bron = a.get("src") or a.get("href")
+        if not bron or bron.startswith("#"):
+            continue
+        if tag == "a":
+            assert bron.startswith(toegestaan) or not re.match(r"^[a-z]+:", bron), f"onverwachte link: {bron}"
+        else:
+            assert not re.match(r"^(https?:)?//", bron), f"externe bron in <{tag}>: {bron}"
 
 
 def test_details_in_grondslag(html):
