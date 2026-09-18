@@ -286,7 +286,55 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
   .gegevens__lijst dd { margin-bottom: .8rem; }
 }
 
-/* (secties 12 tot en met 15 volgen hier) */
+/* Rustpunt boom: beeld met bruine tekstband eronder. */
+.boom__img { width: 100%; height: 75vh; min-height: 320px; object-fit: cover; object-position: 50% 20%; }
+.boom__band { background: var(--bruin); color: var(--creme); padding: 2rem 0 2.5rem; }
+.boom__band p, .boom__band blockquote { margin: 0; }
+.boom__intro { font-family: var(--kopletter); font-size: clamp(1.2rem, 2.4vw, 1.6rem); line-height: 1.15; letter-spacing: .02em; text-transform: uppercase; margin-bottom: 1.25rem !important; }
+.boom__grid { display: grid; gap: 1.25rem; font-size: clamp(1.1rem, 2.2vw, 1.5rem); }
+@media (min-width: 720px) { .boom__grid { grid-template-columns: repeat(3, 1fr); } }
+.boom__band q { color: var(--geel); }
+.boom__band .verw { color: var(--creme); }
+
+/* Rustpunt sikkel: twee beelden naast elkaar. */
+.duo { display: grid; }
+@media (min-width: 720px) { .duo { grid-template-columns: 1fr 1fr; } }
+.duo__item { position: relative; margin: 0; min-height: 70vh; display: flex; align-items: flex-end; padding: 1.5rem var(--marge); overflow: hidden; }
+.duo__item img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.duo__item figcaption { position: relative; }
+
+/* Grondslag */
+.grondslag { padding-bottom: 0; background: linear-gradient(180deg, var(--papier), var(--creme)); }
+.grondslag__sub { display: block; font-size: .5em; letter-spacing: .06em; color: var(--bruin); }
+.kernwaarden { padding-left: 1.3em; }
+.kernwaarden li { margin-bottom: .6em; }
+.inklap { margin: 1.5rem 0; }
+.inklap summary {
+  display: inline-block; cursor: pointer; list-style: none;
+  background: var(--geel); color: var(--bruin); border-radius: 8px; padding: .45em .9em .35em;
+  font-family: var(--kopletter); font-size: 1.3rem; letter-spacing: .04em; text-transform: uppercase;
+}
+.inklap summary::-webkit-details-marker { display: none; }
+.inklap summary::before { content: '▸ '; }
+.inklap[open] summary::before { content: '▾ '; }
+.inklap__inhoud { margin-top: 1rem; background: var(--creme); border-radius: var(--radius); padding: 1.5rem; }
+.inklap__inhoud h3 { margin-top: 1rem; }
+.inklap__inhoud > :last-child { margin-bottom: 0; }
+.grondslag__slot { text-align: center; max-width: 48rem; margin: 2.5rem auto 0; color: var(--bruin); }
+.grondslag__slot p { margin-bottom: .8em; }
+.grondslag__slot q { color: var(--roodbruin); }
+.grondslag__lied { color: var(--groen); }
+.bergen { display: block; width: 100%; height: clamp(90px, 18vw, 220px); margin-top: 1rem; }
+.bergen path { fill: var(--bruin); }
+
+/* Printafwerking voor deze secties (aanvulling op het print-blok onderaan). */
+@media print {
+  .boom__img, .duo__item img, .bergen, .onderband { display: none; }
+  .duo__item { min-height: 0; }
+  .inklap summary::before { content: ''; }
+  /* Ingeklapte onderbouwing toch afdrukken (browsers met ::details-content; oudere browsers drukken alleen af wat open staat). */
+  .inklap::details-content { content-visibility: visible; }
+}
 
 /* ===== Footer ===== */
 .voet { background: var(--bruin); color: var(--creme); padding: 2.5rem 0; text-align: center; }
