@@ -191,6 +191,6 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
   .voet a { color: var(--roodbruin); }
   /* URL achter links waarvan de tekst niet al het adres is; in de voettekst niet, die adressen staan al bij de stappen. */
   a[href^="http"]:not(.url)::after { content: ' (' attr(href) ')'; font-size: .85em; }
-  .voet a::after { content: none; }
+  .voet a[href^="http"]::after { content: none; }
   h2, h3, .stap, .paden li, .meedoen { break-inside: avoid; }
 }
