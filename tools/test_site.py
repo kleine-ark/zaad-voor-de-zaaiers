@@ -1,4 +1,4 @@
-"""Controles op index.html en css/style.css volgens de ontwerpspec (§5)."""
+"""Controles op index.html en css/style.css volgens de spec 'samenvatting op één A4' (§5)."""
 import re
 from html.parser import HTMLParser
 from pathlib import Path
@@ -11,30 +11,43 @@ INDEX = ROOT / "index.html"
 CSS = ROOT / "css" / "style.css"
 BROCHURE = ROOT / "brochure" / "zaad-voor-de-zaaier-brochure.pdf"
 
-SECTIE_IDS = ["top", "waarom", "rust-geven", "wie", "plan", "project", "rust-oogst",
-              "bedieningspaden", "rust-gemeenschap", "geven", "fiscaal", "gegevens",
-              "rust-volharding", "rust-boom", "rust-sikkel", "grondslag"]
-NAV_ANKERS = ["#waarom", "#wie", "#plan", "#bedieningspaden", "#geven", "#grondslag"]
+WOORDBUDGET = 450
+SECTIE_IDS = ["top", "wat", "hoe", "meedoen"]
 # Hoofdlettergevoelig; tikfouten uit de brochure en dingen die niet op de site horen.
 VERBODEN = ["Zaaiers", "NL.....", "Eein", "betekend", "opleverd", "vind u",
             "luid:", "hiemee", "bedieninsvarianten", "Matth.55", "1 kor.", "word vergeleken",
             "gebeurd er", "verspreid daarmee", "stichting ondersteund", "<script"]
+KERNINHOUD = ["Hebron Missie", "Werkers in de Wijngaard", "Parttime", "Fulltime", "€ 100", "ANBI",
+              "periodieke gift", "2 Kor. 9:10", "2 Kor. 9:7", "Rom. 12:4–5", "Maarten Vroegindeweij",
+              "Stefan de Heer", "Philadelphia", "Gospel Image"]
 TOKENS = ["--bruin", "--creme", "--papier", "--geel", "--oranje", "--sage", "--lichtblauw",
           "--lei", "--groen", "--roodbruin", "--tekst"]
 IBAN = "NL83 RABO 0310 5957 62"
-# Beelden die niet lui geladen worden: de hero en het logo in de navigatiebalk.
+# Beelden die niet lui geladen worden: de hero en het logo in de kopregel.
 NIET_LUI = {"img/hero-zaaier.jpg"}
 
 
 class Dom(HTMLParser):
-    """Platte lijst van (tag, attributen) in documentvolgorde; genoeg voor deze controles."""
+    """Platte lijst van (tag, attributen) plus de tekst binnen <main>; genoeg voor deze controles."""
 
     def __init__(self):
         super().__init__()
         self.tags = []
+        self.main_tekst = []
+        self._in_main = False
 
     def handle_starttag(self, tag, attrs):
         self.tags.append((tag, dict(attrs)))
+        if tag == "main":
+            self._in_main = True
+
+    def handle_endtag(self, tag):
+        if tag == "main":
+            self._in_main = False
+
+    def handle_data(self, data):
+        if self._in_main:
+            self.main_tekst.append(data)
 
 
 @pytest.fixture(scope="module")
@@ -86,14 +99,6 @@ def test_skip_link_en_main(html):
     assert '<main id="inhoud">' in html
 
 
-def test_nav_ankers_verwijzen_naar_bestaande_secties(html, dom):
-    ids = alle_ids(dom)
-    nav = html.split("<nav")[1].split("</nav>")[0]
-    for anker in NAV_ANKERS:
-        assert f'href="{anker}"' in nav, f"{anker} ontbreekt in de navigatie"
-        assert anker[1:] in ids, f"sectie {anker} bestaat niet"
-
-
 def test_secties_in_volgorde_en_footer_erna(dom):
     ids = alle_ids(dom)
     posities = []
@@ -101,37 +106,13 @@ def test_secties_in_volgorde_en_footer_erna(dom):
         assert sid in ids, f"sectie #{sid} ontbreekt"
         posities.append(ids.index(sid))
     assert posities == sorted(posities), "secties staan niet in de spec-volgorde"
-    grondslag = next(i for i, (t, a) in enumerate(dom.tags) if a.get("id") == "grondslag")
-    assert "footer" in [t for t, _ in dom.tags[grondslag:]], "footer moet na #grondslag komen"
+    laatste = next(i for i, (t, a) in enumerate(dom.tags) if a.get("id") == SECTIE_IDS[-1])
+    assert "footer" in [t for t, _ in dom.tags[laatste:]], "footer moet na de laatste sectie komen"
 
 
-def test_een_h2_per_sectie(dom):
-    """Elke sectie na de hero heeft precies één h2; de hero heeft de h1."""
-    starts = [i for i, (t, a) in enumerate(dom.tags) if a.get("id") in SECTIE_IDS]
-    footer = next(i for i, (t, _) in enumerate(dom.tags) if t == "footer")
-    grenzen = starts + [footer]
-    for begin, eind in zip(grenzen, grenzen[1:]):
-        sid = dom.tags[begin][1]["id"]
-        h2 = sum(1 for t, _ in dom.tags[begin:eind] if t == "h2")
-        assert h2 == (0 if sid == "top" else 1), f"sectie #{sid} heeft {h2} h2-koppen"
-
-
-def test_alleen_relatieve_bronnen_en_toegestane_hosts(dom):
-    """Geen externe scripts, stijlen of beelden; links alleen intern of naar de twee stichtingen."""
-    toegestaan = ("https://www.hebronmissie.nl", "https://www.werkersindewijngaard.nl")
-    for tag, a in dom.tags:
-        bron = a.get("src") or a.get("href")
-        if not bron or bron.startswith("#"):
-            continue
-        if tag == "a":
-            assert bron.startswith(toegestaan) or not re.match(r"^[a-z]+:", bron), f"onverwachte link: {bron}"
-        else:
-            assert not re.match(r"^(https?:)?//", bron), f"externe bron in <{tag}>: {bron}"
-
-
-def test_details_in_grondslag(html):
-    na_grondslag = html.split('id="grondslag"')[1]
-    assert "<details" in na_grondslag.split("<footer")[0]
+def test_drie_stappen(dom):
+    stappen = [a for t, a in dom.tags if "stap" in a.get("class", "").split()]
+    assert len(stappen) == 3, f"{len(stappen)} stappen gevonden, verwacht 3"
 
 
 # ---- beelden ----
@@ -139,7 +120,7 @@ def test_details_in_grondslag(html):
 def test_afbeeldingen_bestaan_met_alt_en_juiste_maten(dom):
     imgs = [a for t, a in dom.tags if t == "img"]
     assert imgs, "geen afbeeldingen gevonden"
-    nav_logo_gezien = False
+    kopregel_logo_gezien = False
     for a in imgs:
         pad = ROOT / a["src"]
         assert pad.exists(), f"{a['src']} ontbreekt"
@@ -147,14 +128,25 @@ def test_afbeeldingen_bestaan_met_alt_en_juiste_maten(dom):
         w, h = Image.open(pad).size
         assert (int(a["width"]), int(a["height"])) == (w, h), \
             f"{a['src']}: attributen {a.get('width')}x{a.get('height')}, bestand {w}x{h}"
-        eerste_logo = a["src"] == "img/logo-zaad-voor-de-zaaier.png" and not nav_logo_gezien
+        eerste_logo = a["src"] == "img/logo-zaad-voor-de-zaaier.png" and not kopregel_logo_gezien
         if eerste_logo:
-            nav_logo_gezien = True
+            kopregel_logo_gezien = True
         elif a["src"] not in NIET_LUI:
             assert a.get("loading") == "lazy", f"{a['src']} mist loading=lazy"
 
 
 # ---- tekst ----
+
+def test_woordbudget(dom):
+    tekst = " ".join(dom.main_tekst)
+    woorden = len(re.findall(r"\S+", tekst))
+    assert woorden <= WOORDBUDGET, f"{woorden} woorden in <main>, budget {WOORDBUDGET}"
+
+
+def test_kerninhoud_aanwezig(html):
+    for term in KERNINHOUD:
+        assert term in html, f"ontbreekt: {term!r}"
+
 
 def test_geen_verboden_tekst(html):
     for woord in VERBODEN:
@@ -170,11 +162,23 @@ def test_iban_exact_en_geldig(html):
 
 def test_geen_link_naar_niet_bestaande_projecturl(html):
     assert not re.search(r'href="[^"]*werkersindewijngaard\.nl/zaadvoordezaaier', html)
-    assert "beoogd adres van deze pagina" in html
 
 
 def test_downloadknop(html):
     assert 'href="brochure/zaad-voor-de-zaaier-brochure.pdf"' in html
+
+
+def test_alleen_relatieve_bronnen_en_toegestane_hosts(dom):
+    """Geen externe scripts, stijlen of beelden; links alleen intern of naar de twee stichtingen."""
+    toegestaan = ("https://www.hebronmissie.nl", "https://www.werkersindewijngaard.nl")
+    for tag, a in dom.tags:
+        bron = a.get("src") or a.get("href")
+        if not bron or bron.startswith("#"):
+            continue
+        if tag == "a":
+            assert bron.startswith(toegestaan) or not re.match(r"^[a-z]+:", bron), f"onverwachte link: {bron}"
+        else:
+            assert not re.match(r"^(https?:)?//", bron), f"externe bron in <{tag}>: {bron}"
 
 
 # ---- css en gewicht ----
@@ -187,8 +191,13 @@ def test_tokens_en_fonts_in_css(css):
         assert (ROOT / "fonts" / font.split("/")[-1]).exists()
 
 
+def test_print_op_a4(css):
+    print_blok = css.split("@media print")[1]
+    assert re.search(r"@page\s*\{[^}]*size:\s*A4", print_blok), "@page met size: A4 ontbreekt in het print-blok"
+
+
 def test_gewicht():
     img_totaal = sum(p.stat().st_size for p in (ROOT / "img").iterdir() if p.is_file())
-    assert img_totaal < 4_000_000
+    assert img_totaal < 1_000_000
     assert BROCHURE.stat().st_size <= 6_000_000
-    assert INDEX.stat().st_size + CSS.stat().st_size < 200_000
+    assert INDEX.stat().st_size + CSS.stat().st_size < 60_000

@@ -29,37 +29,20 @@ MAX_HERO, MAX_POSTER, MAX_PORTRET = 1800, 1400, 600
 BEELDEN = {
     (1, 0): ("hero-zaaier.jpg", MAX_HERO, None, 0),
     (1, 1): ("maarten.jpg", MAX_PORTRET, CREME, 0),
-    (2, 0): ("bijbel-markeerstift.jpg", MAX_POSTER, None, 0),
     (2, 2): ("logo-werkers-in-de-wijngaard.png", None, None, 0),
     (2, 3): ("logo-hebron-missie.png", None, None, 0),
-    (3, 0): ("hand-zaden.jpg", MAX_POSTER, None, 0),
-    (4, 0): ("hand-planten.jpg", MAX_POSTER, None, 0),
-    (5, 0): ("hand-graan.jpg", MAX_POSTER, None, 0),
-    (6, 0): ("bijbel-korenveld.jpg", MAX_POSTER, None, 0),
-    (7, 0): ("biddende-man.jpg", MAX_POSTER, None, 0),
-    (8, 0): ("zakken-graan.jpg", MAX_POSTER, None, 0),
     (8, 1): ("logo-anbi.png", None, None, 0),
     (9, 0): ("logo-zaad-voor-de-zaaier.png", None, None, 0),
-    (9, 2): ("rijstveld.jpg", MAX_POSTER, PAPIER, 0),
-    (10, 0): ("handen-hemel.jpg", MAX_POSTER, None, 0),
-    (11, 0): ("boom.jpg", MAX_POSTER, None, 0),
-    (12, 0): ("maaidorser.jpg", MAX_POSTER, None, 0),
-    # Op brochurepagina 13 staat dit beeld een kwartslag gedraaid.
-    (13, 0): ("luchtfoto-veld.jpg", MAX_POSTER, None, 90),
     (14, 0): ("stefan.jpg", MAX_PORTRET, CREME, 0),
 }
 
 
-# Verwachte maat van elk bronbeeld in het origineel (vóór rotatie); wijkt die af, dan is de
+# Verwachte maat van elk bronbeeld in het origineel; wijkt die af, dan is de
 # koppeling (pagina, index) in BEELDEN waarschijnlijk verschoven door een nieuwe export.
 BRONMATEN = {
-    "hero-zaaier.jpg": (1725, 2609), "maarten.jpg": (560, 374), "bijbel-markeerstift.jpg": (1728, 1152),
+    "hero-zaaier.jpg": (1725, 2609), "maarten.jpg": (560, 374),
     "logo-werkers-in-de-wijngaard.png": (292, 53), "logo-hebron-missie.png": (324, 126),
-    "hand-zaden.jpg": (1296, 1936), "hand-planten.jpg": (960, 1365), "hand-graan.jpg": (1730, 2457),
-    "bijbel-korenveld.jpg": (1550, 2193), "biddende-man.jpg": (1200, 1690), "zakken-graan.jpg": (1200, 1696),
-    "logo-anbi.png": (231, 183), "logo-zaad-voor-de-zaaier.png": (615, 410), "rijstveld.jpg": (1549, 1033),
-    "handen-hemel.jpg": (1200, 1702), "boom.jpg": (922, 1383), "maaidorser.jpg": (1200, 1697),
-    "luchtfoto-veld.jpg": (2163, 1446), "stefan.jpg": (776, 516),
+    "logo-anbi.png": (231, 183), "logo-zaad-voor-de-zaaier.png": (615, 410), "stefan.jpg": (776, 516),
 }
 
 

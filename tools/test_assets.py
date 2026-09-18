@@ -14,23 +14,12 @@ GRENZEN = {
     "hero-zaaier.jpg": 1800,
     "maarten.jpg": 600,
     "stefan.jpg": 600,
-    "bijbel-markeerstift.jpg": 1400,
-    "hand-zaden.jpg": 1400,
-    "hand-planten.jpg": 1400,
-    "hand-graan.jpg": 1400,
-    "bijbel-korenveld.jpg": 1400,
-    "biddende-man.jpg": 1400,
-    "zakken-graan.jpg": 1400,
-    "rijstveld.jpg": 1400,
-    "handen-hemel.jpg": 1400,
-    "boom.jpg": 1400,
-    "maaidorser.jpg": 1400,
-    "luchtfoto-veld.jpg": 1400,
     "logo-zaad-voor-de-zaaier.png": None,
     "logo-hebron-missie.png": None,
     "logo-werkers-in-de-wijngaard.png": None,
     "logo-anbi.png": None,
 }
+AFGELEID = {"favicon.png", "og-image.jpg"}
 
 
 @pytest.mark.parametrize("naam", sorted(GRENZEN))
@@ -46,9 +35,10 @@ def test_beeld_bestaat_en_past_binnen_grens(naam):
         assert im.format == "PNG" and im.mode == "RGBA"
 
 
-def test_luchtfoto_staat_staand():
-    im = Image.open(IMG / "luchtfoto-veld.jpg")
-    assert im.height > im.width, "luchtfoto moet een kwartslag gedraaid zijn zoals op brochurepagina 13"
+def test_geen_onverwachte_bestanden_in_img():
+    """De pagina gebruikt negen beelden; alles daarbuiten is ballast in de repo."""
+    aanwezig = {p.name for p in IMG.iterdir() if p.is_file()}
+    assert aanwezig == set(GRENZEN) | AFGELEID, f"onverwacht in img/: {aanwezig ^ (set(GRENZEN) | AFGELEID)}"
 
 
 def test_favicon_en_og_image():
@@ -58,9 +48,9 @@ def test_favicon_en_og_image():
     assert og.size == (1200, 630)
 
 
-def test_totaal_gewicht_img_onder_4_mb():
+def test_totaal_gewicht_img_onder_1_mb():
     totaal = sum(p.stat().st_size for p in IMG.iterdir() if p.is_file())
-    assert totaal < 4_000_000, f"img/ weegt {totaal / 1e6:.2f} MB"
+    assert totaal < 1_000_000, f"img/ weegt {totaal / 1e6:.2f} MB"
 
 
 def test_brochure_pdf():
