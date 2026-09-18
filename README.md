@@ -57,9 +57,15 @@ printstijl zet alle vlakken om naar wit met een rand.
 ## Redactie
 
 De tekst is een samenvatting van de brochure, met deze afspraken: de naam is overal
-"Zaad voor de Zaaier"; bijbelcitaten zijn woordelijk overgenomen; de giftgegevens en de fiscale
-regels staan zoals in de brochure. Toegevoegd ten opzichte van de brochure: de zin "in samenwerking
-met Stichting Hebron Missie" in de voettekst. De download-PDF is de bestaande brochure.
+"Zaad voor de Zaaier"; bijbelcitaten zijn woordelijk overgenomen; de fiscale regels volgen de
+brochure, inclusief het voorbehoud "kunnen aftrekbaar zijn". IBAN en tenaamstelling zijn door de
+eigenaren aangeleverd (de brochure bevat op die plek een invulveld). De verwijzing "vgl.
+Rom. 12:4–5" staat bij een parafrase van de brochure, niet bij een citaat. De download-PDF is de
+bestaande brochure.
+
+Ter controle door de eigenaren: de brochure noemt de periodieke gift "volledig aftrekbaar,
+zonder drempel of maximum"; sinds 2023 kent de inkomstenbelasting wel een plafond voor
+periodieke giften. De pagina neemt de brochuretekst over en verwijst naar de eigen adviseur.
 
 Snelle controle op telefoonbreedte na wijzigingen (in de browserconsole op 375 px):
 `document.documentElement.scrollWidth <= document.documentElement.clientWidth` moet `true` zijn.

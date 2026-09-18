@@ -53,7 +53,7 @@ body {
 @media (min-width: 720px) { body { font-size: 1.0625rem; } }
 img { display: block; max-width: 100%; height: auto; }
 a { color: var(--roodbruin); }
-a:focus-visible { outline: 3px solid var(--geel); outline-offset: 2px; }
+a:focus-visible { outline: 3px solid var(--bruin); outline-offset: 2px; box-shadow: 0 0 0 6px var(--geel); }
 h1, h2, h3 {
   font-family: var(--kopletter);
   font-weight: 400;
@@ -104,16 +104,17 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
 .kopregel__logo img { height: 40px; width: auto; }
 
 /* ===== Kopband ===== */
-.kopband { position: relative; min-height: 36vh; display: flex; align-items: flex-end; overflow: hidden; color: var(--creme); }
+.kopband { position: relative; min-height: max(36vh, 260px); display: flex; align-items: flex-end; overflow: hidden; color: var(--creme); }
 .kopband__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
 .kopband::before {
   content: ''; position: absolute; inset: 0;
   background: linear-gradient(180deg, rgba(59, 35, 20, .35) 0%, rgba(59, 35, 20, .1) 30%, rgba(59, 35, 20, .8) 100%);
 }
 .kopband__inhoud { position: relative; width: 100%; padding-block: 2.5rem 1.75rem; }
+.kopband__vlak { max-width: 46rem; background: rgba(59, 35, 20, .78); border-radius: var(--radius); padding: 1rem 1.25rem 1.1rem; }
 .kopband h1 { color: var(--creme); font-size: clamp(2.6rem, 7vw, 4.5rem); margin: .15em 0 .05em; }
 .kopband__sub { font-family: var(--kopletter); font-size: clamp(1.3rem, 3vw, 1.9rem); letter-spacing: .03em; text-transform: uppercase; color: var(--geel); margin: 0 0 .7em; }
-.kopband__citaat { max-width: 44rem; background: rgba(59, 35, 20, .78); border-radius: var(--radius); padding: .75rem 1rem; margin: 0; }
+.kopband__citaat { margin: 0; }
 .kopband__citaat q { color: var(--creme); }
 .kopband__citaat .verw { color: var(--geel); }
 
@@ -126,6 +127,7 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
 .portretten { float: right; display: flex; gap: .5rem; margin: 0 0 .5rem 1rem; }
 .portretten figure { margin: 0; text-align: center; font-size: .75rem; }
 .portretten img { width: 84px; border-radius: 8px; margin-inline: auto; }
+@media (max-width: 480px) { .portretten { float: none; margin: 0 0 .75rem; } }
 .stappen { list-style: none; padding: 0; margin: 0 0 .5rem; display: grid; gap: .75rem; }
 .stap { display: flex; gap: .75rem; align-items: flex-start; background: var(--creme); border-radius: var(--radius); padding: .75rem 1rem; box-shadow: var(--schaduw); }
 .stap a { display: block; font-weight: 600; }
@@ -141,14 +143,10 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
 .meedoen ul { padding-left: 1.1em; }
 .meedoen__slot { margin-bottom: 0; }
 .meedoen__anbi { width: 110px; background: var(--papier); border-radius: 8px; padding: 5px; margin-top: 1rem; }
-.gegevens { display: grid; grid-template-columns: max-content 1fr; gap: .3rem 1rem; margin: 0 0 1rem; }
+.gegevens { display: grid; grid-template-columns: 1fr; gap: 0; margin: 0 0 1rem; }
 .gegevens dt { font-family: var(--kopletter); font-size: 1.05rem; letter-spacing: .04em; text-transform: uppercase; color: var(--geel); }
-.gegevens dd { margin: 0; }
-.gegevens__iban { font-family: var(--kopletter); font-size: clamp(1.5rem, 3.5vw, 2rem); letter-spacing: .06em; line-height: 1; user-select: all; }
-@media (max-width: 480px) {
-  .gegevens { grid-template-columns: 1fr; gap: .1rem; }
-  .gegevens dd { margin-bottom: .6rem; }
-}
+.gegevens dd { margin: 0 0 .5rem; }
+.gegevens__iban { font-family: var(--kopletter); font-size: clamp(1.4rem, 2.4vw, 2rem); letter-spacing: .05em; line-height: 1.1; white-space: nowrap; user-select: all; }
 
 /* ===== Footer ===== */
 .voet { background: var(--bruin); color: var(--creme); padding: 2rem 0; text-align: center; }
@@ -160,17 +158,17 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
 
 /* ===== Print: de hele pagina op een A4 ===== */
 @media print {
-  @page { size: A4; margin: 12mm; }
-  html { font-size: 10.5pt; }
+  @page { size: A4; margin: 11mm; }
+  html { font-size: 10pt; }
   body { background: #fff; color: #000; line-height: 1.35; }
   /* Kopregel, foto en voettekst blijven weg: op papier is de inhoud daarvan al in de tekst aanwezig. */
-  .skip-link, .kopregel, .kopband__img, .kopband::before, .voet { display: none; }
+  .skip-link, .kopregel, .kopband__img, .kopband::before, .voet__logos, .voet .knop { display: none; }
   .wrap { max-width: none; padding-inline: 0; }
   .kopband { min-height: 0; display: block; color: var(--bruin); overflow: visible; }
   .kopband__inhoud { padding: 0 0 .5rem; }
   .kopband h1 { color: var(--bruin); font-size: 26pt; }
   .kopband__sub { color: var(--roodbruin); font-size: 13pt; }
-  .kopband__citaat { background: none; padding: 0; max-width: none; }
+  .kopband__vlak { background: none; padding: 0; max-width: none; }
   .kopband__citaat q { color: var(--roodbruin); }
   .kopband__citaat .verw { color: var(--bruin); }
   .badge { background: none; border: 1px solid var(--bruin); font-size: 10pt; }
@@ -186,8 +184,13 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
   .meedoen .verw { color: var(--bruin); }
   .meedoen__anbi { background: none; padding: 0; width: 80px; }
   /* Gegevens onder elkaar, zodat het IBAN op een regel past in de smalle kolom. */
-  .gegevens { grid-template-columns: 1fr; gap: 0; }
   .gegevens dd { margin-bottom: .35rem; }
-  .gegevens__iban { font-size: 15pt; letter-spacing: .05em; }
+  .gegevens__iban { font-size: 15pt; }
+  .voet { background: none; color: #000; padding: .3rem 0 0; margin-top: .5rem; border-top: 1px solid var(--bruin); font-size: 8.5pt; }
+  .voet p { margin: 0; }
+  .voet a { color: var(--roodbruin); }
+  /* URL achter links waarvan de tekst niet al het adres is; in de voettekst niet, die adressen staan al bij de stappen. */
+  a[href^="http"]:not(.url)::after { content: ' (' attr(href) ')'; font-size: .85em; }
+  .voet a::after { content: none; }
   h2, h3, .stap, .paden li, .meedoen { break-inside: avoid; }
 }

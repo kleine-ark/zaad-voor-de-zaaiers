@@ -22,18 +22,18 @@ BROCHURE = ROOT / "brochure" / "zaad-voor-de-zaaier-brochure.pdf"
 CREME = (248, 238, 197)
 PAPIER = (255, 250, 240)
 KWALITEIT = 80
-MAX_HERO, MAX_POSTER, MAX_PORTRET = 1800, 1400, 600
+MAX_HERO, MAX_PORTRET = 1800, 600
 
 # (pagina 1-based, index in page.images) -> (bestandsnaam, max lange zijde,
-#   achtergrondkleur voor RGBA->JPEG of None, rotatie in graden met de klok mee)
+#   achtergrondkleur voor RGBA->JPEG of None)
 BEELDEN = {
-    (1, 0): ("hero-zaaier.jpg", MAX_HERO, None, 0),
-    (1, 1): ("maarten.jpg", MAX_PORTRET, CREME, 0),
-    (2, 2): ("logo-werkers-in-de-wijngaard.png", None, None, 0),
-    (2, 3): ("logo-hebron-missie.png", None, None, 0),
-    (8, 1): ("logo-anbi.png", None, None, 0),
-    (9, 0): ("logo-zaad-voor-de-zaaier.png", None, None, 0),
-    (14, 0): ("stefan.jpg", MAX_PORTRET, CREME, 0),
+    (1, 0): ("hero-zaaier.jpg", MAX_HERO, None),
+    (1, 1): ("maarten.jpg", MAX_PORTRET, CREME),
+    (2, 2): ("logo-werkers-in-de-wijngaard.png", None, None),
+    (2, 3): ("logo-hebron-missie.png", None, None),
+    (8, 1): ("logo-anbi.png", None, None),
+    (9, 0): ("logo-zaad-voor-de-zaaier.png", None, None),
+    (14, 0): ("stefan.jpg", MAX_PORTRET, CREME),
 }
 
 
@@ -70,14 +70,12 @@ def bewaar(im: Image.Image, pad: Path) -> None:
 
 def maak_beelden(origineel: Path) -> None:
     reader = PdfReader(str(origineel))
-    for (pagina, index), (naam, max_zijde, achtergrond, rotatie) in BEELDEN.items():
+    for (pagina, index), (naam, max_zijde, achtergrond) in BEELDEN.items():
         bron = reader.pages[pagina - 1].images[index]
         im = Image.open(io.BytesIO(bron.data))
         if im.size != BRONMATEN[naam]:
             raise SystemExit(f"{naam}: bronbeeld op pagina {pagina} is {im.size}, verwacht {BRONMATEN[naam]}; "
                              "controleer de koppeling in BEELDEN")
-        if rotatie == 90:
-            im = im.transpose(Image.Transpose.ROTATE_270)  # 270° tegen de klok = 90° met de klok
         im = verklein(im, max_zijde)
         if achtergrond and im.mode == "RGBA":
             im = op_achtergrond(im, achtergrond)

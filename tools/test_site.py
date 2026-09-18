@@ -11,43 +11,49 @@ INDEX = ROOT / "index.html"
 CSS = ROOT / "css" / "style.css"
 BROCHURE = ROOT / "brochure" / "zaad-voor-de-zaaier-brochure.pdf"
 
-WOORDBUDGET = 450
+# Vroege waarschuwing; de echte A4-bewaker is tools/test_print.py.
+WOORDBUDGET = 420
 SECTIE_IDS = ["top", "wat", "hoe", "meedoen"]
 # Hoofdlettergevoelig; tikfouten uit de brochure en dingen die niet op de site horen.
 VERBODEN = ["Zaaiers", "NL.....", "Eein", "betekend", "opleverd", "vind u",
             "luid:", "hiemee", "bedieninsvarianten", "Matth.55", "1 kor.", "word vergeleken",
             "gebeurd er", "verspreid daarmee", "stichting ondersteund", "<script"]
+# Moet in de leesbare tekst van main + voettekst staan (niet alleen in alt-teksten of attributen).
 KERNINHOUD = ["Hebron Missie", "Werkers in de Wijngaard", "Parttime", "Fulltime", "€ 100", "ANBI",
               "periodieke gift", "2 Kor. 9:10", "2 Kor. 9:7", "Rom. 12:4–5", "Maarten Vroegindeweij",
-              "Stefan de Heer", "Philadelphia", "Gospel Image"]
+              "Stefan de Heer", "Philadelphia", "Gospel Image", "kunnen binnen de wettelijke kaders aftrekbaar zijn"]
+STICHTINGEN = ("https://www.hebronmissie.nl", "https://www.werkersindewijngaard.nl")
 TOKENS = ["--bruin", "--creme", "--papier", "--geel", "--oranje", "--sage", "--lichtblauw",
           "--lei", "--groen", "--roodbruin", "--tekst"]
 IBAN = "NL83 RABO 0310 5957 62"
-# Beelden die niet lui geladen worden: de hero en het logo in de kopregel.
-NIET_LUI = {"img/hero-zaaier.jpg"}
+# Beelden boven de vouw worden niet lui geladen: hero, portretten en (via de lus) het kopregel-logo.
+NIET_LUI = {"img/hero-zaaier.jpg", "img/maarten.jpg", "img/stefan.jpg"}
 
 
 class Dom(HTMLParser):
-    """Platte lijst van (tag, attributen) plus de tekst binnen <main>; genoeg voor deze controles."""
+    """Platte lijst van (tag, attributen) plus de leesbare tekst van <main> en <footer>."""
 
     def __init__(self):
         super().__init__()
         self.tags = []
         self.main_tekst = []
-        self._in_main = False
+        self.voet_tekst = []
+        self._in = None
 
     def handle_starttag(self, tag, attrs):
         self.tags.append((tag, dict(attrs)))
-        if tag == "main":
-            self._in_main = True
+        if tag in ("main", "footer"):
+            self._in = tag
 
     def handle_endtag(self, tag):
-        if tag == "main":
-            self._in_main = False
+        if tag in ("main", "footer"):
+            self._in = None
 
     def handle_data(self, data):
-        if self._in_main:
+        if self._in == "main":
             self.main_tekst.append(data)
+        elif self._in == "footer":
+            self.voet_tekst.append(data)
 
 
 @pytest.fixture(scope="module")
@@ -143,9 +149,10 @@ def test_woordbudget(dom):
     assert woorden <= WOORDBUDGET, f"{woorden} woorden in <main>, budget {WOORDBUDGET}"
 
 
-def test_kerninhoud_aanwezig(html):
+def test_kerninhoud_in_leesbare_tekst(dom):
+    tekst = " ".join(dom.main_tekst + dom.voet_tekst)
     for term in KERNINHOUD:
-        assert term in html, f"ontbreekt: {term!r}"
+        assert term in tekst, f"ontbreekt in de leesbare tekst: {term!r}"
 
 
 def test_geen_verboden_tekst(html):
@@ -153,30 +160,33 @@ def test_geen_verboden_tekst(html):
         assert woord not in html, f"gevonden: {woord!r}"
 
 
-def test_iban_exact_en_geldig(html):
-    assert IBAN in html
+def test_iban_exact_en_geldig(dom):
+    tekst = " ".join(dom.main_tekst)
+    assert IBAN in tekst
     assert iban_geldig(IBAN)
-    assert "Stichting Werkers in de Wijngaard" in html
-    assert "Project Zaad voor de Zaaier" in html
+    assert "Stichting Werkers in de Wijngaard" in tekst
+    assert "Project Zaad voor de Zaaier" in tekst
 
 
-def test_geen_link_naar_niet_bestaande_projecturl(html):
-    assert not re.search(r'href="[^"]*werkersindewijngaard\.nl/zaadvoordezaaier', html)
+def test_links_naar_beide_stichtingen_en_geen_projecturl(dom):
+    hrefs = [a.get("href", "") for t, a in dom.tags if t == "a"]
+    for host in STICHTINGEN:
+        assert any(h.startswith(host) for h in hrefs), f"link naar {host} ontbreekt"
+    assert not any("werkersindewijngaard.nl/zaadvoordezaaier" in h for h in hrefs)
 
 
-def test_downloadknop(html):
-    assert 'href="brochure/zaad-voor-de-zaaier-brochure.pdf"' in html
+def test_downloadknop(dom):
+    assert any(a.get("href") == "brochure/zaad-voor-de-zaaier-brochure.pdf" for t, a in dom.tags if t == "a")
 
 
 def test_alleen_relatieve_bronnen_en_toegestane_hosts(dom):
     """Geen externe scripts, stijlen of beelden; links alleen intern of naar de twee stichtingen."""
-    toegestaan = ("https://www.hebronmissie.nl", "https://www.werkersindewijngaard.nl")
     for tag, a in dom.tags:
         bron = a.get("src") or a.get("href")
         if not bron or bron.startswith("#"):
             continue
         if tag == "a":
-            assert bron.startswith(toegestaan) or not re.match(r"^[a-z]+:", bron), f"onverwachte link: {bron}"
+            assert bron.startswith(STICHTINGEN) or not re.match(r"^[a-z]+:", bron), f"onverwachte link: {bron}"
         else:
             assert not re.match(r"^(https?:)?//", bron), f"externe bron in <{tag}>: {bron}"
 
@@ -191,9 +201,16 @@ def test_tokens_en_fonts_in_css(css):
         assert (ROOT / "fonts" / font.split("/")[-1]).exists()
 
 
+def test_iban_breekt_niet(css):
+    regel = re.search(r"\.gegevens__iban\s*\{([^}]*)\}", css).group(1)
+    assert "white-space: nowrap" in regel, "IBAN moet op een regel blijven"
+
+
 def test_print_op_a4(css):
     print_blok = css.split("@media print")[1]
     assert re.search(r"@page\s*\{[^}]*size:\s*A4", print_blok), "@page met size: A4 ontbreekt in het print-blok"
+    assert ".voet__logos" in print_blok and ".voet { display: none" not in print_blok, \
+        "in print blijft de voettekstregel staan; alleen logo's en knop verdwijnen"
 
 
 def test_gewicht():
