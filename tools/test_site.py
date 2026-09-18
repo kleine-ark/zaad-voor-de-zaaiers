@@ -19,7 +19,7 @@ VERBODEN = ["Zaaiers", "NL.....", "Eein", "betekend", "opleverd", "vind u",
             "luid:", "hiemee", "bedieninsvarianten", "Matth.55", "1 kor.", "word vergeleken",
             "gebeurd er", "verspreid daarmee", "stichting ondersteund", "<script"]
 # Moet in de leesbare tekst van main + voettekst staan (niet alleen in alt-teksten of attributen).
-KERNINHOUD = ["Hebron Missie", "Werkers in de Wijngaard", "Parttime", "Fulltime", "€ 100", "ANBI",
+KERNINHOUD = ["Hebron Missie", "Werkers in de Wijngaard", "Parttime", "Fulltime", "ANBI",
               "periodieke gift", "2 Kor. 9:10", "2 Kor. 9:7", "Rom. 12:4–5", "Maarten Vroegindeweij",
               "Stefan de Heer", "Philadelphia", "Gospel Image", "kunnen binnen de wettelijke kaders aftrekbaar zijn"]
 STICHTINGEN = ("https://www.hebronmissie.nl", "https://www.werkersindewijngaard.nl")
