@@ -237,7 +237,23 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
   .plan__kaart:not(:last-child)::after { left: auto; right: -1.4rem; bottom: auto; top: 50%; transform: translateY(-50%) rotate(-45deg); }
 }
 
-/* (secties 5 tot en met 15 volgen hier) */
+/* Project */
+.projectkop { text-align: center; margin-bottom: 2rem; padding: 1.25rem; }
+.projectkop h2 { color: var(--creme); margin: 0; }
+.projectkop__sub { font-family: var(--kopletter); text-transform: uppercase; letter-spacing: .04em; font-size: 1.15rem; color: var(--geel); margin: .3em 0 0; }
+
+/* Bedieningspaden */
+.pad__soort { display: block; font-family: var(--broodletter); font-size: 1rem; font-weight: 600; letter-spacing: .25em; text-transform: none; color: var(--tekst); margin-top: .3em; }
+.pad h4 { margin-top: 1rem; }
+.pad ul { padding-left: 1.1em; }
+.pad .uitlichting { margin: 1.25rem 0 0; }
+.conclusie { margin-top: 2rem; }
+.conclusie__label { font-family: var(--kopletter); font-size: 1.4rem; font-weight: 400; letter-spacing: .1em; text-transform: uppercase; color: var(--geel); margin-right: .4em; }
+
+/* Rustpunt met donkere foto: vier lei-vlakken onder elkaar, gecentreerd. */
+#rust-gemeenschap { background: #2f3236; }
+
+/* (secties 9 tot en met 15 volgen hier) */
 
 /* ===== Footer ===== */
 .voet { background: var(--bruin); color: var(--creme); padding: 2.5rem 0; text-align: center; }
