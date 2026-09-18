@@ -1,0 +1,220 @@
+/* Zaad voor de Zaaier. Volgorde: fonts, tokens, basis, componenten, nav, hero, secties, footer, print. */
+
+/* ===== Lettertypen ===== */
+@font-face {
+  font-family: 'Bebas Neue';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/bebas-neue.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300 800;
+  font-display: swap;
+  src: url('../fonts/open-sans.woff2') format('woff2');
+}
+
+/* ===== Tokens ===== */
+:root {
+  --bruin: #3b2314;
+  --creme: #f8eec5;
+  --papier: #fffaf0;
+  --geel: #f6e94b;
+  --oranje: #eeb657;
+  --sage: #c4ceaf;
+  --lichtblauw: #d4fcff;
+  --lei: #cdd0d3;
+  --groen: #5a8a2a;
+  --roodbruin: #8b3a1e;
+  --tekst: #2b2118;
+  --kopletter: 'Bebas Neue', 'Arial Narrow', Impact, sans-serif;
+  --broodletter: 'Open Sans', 'Segoe UI', Arial, sans-serif;
+  --radius: 14px;
+  --nav-hoogte: 60px;
+  --breedte: 1100px;
+  --marge: 16px;
+  --schaduw: 0 6px 24px rgba(59, 35, 20, .12);
+}
+@media (min-width: 720px) { :root { --marge: 32px; } }
+
+/* ===== Basis ===== */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background: var(--papier);
+  color: var(--tekst);
+  font-family: var(--broodletter);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+@media (min-width: 720px) { body { font-size: 1.0625rem; } }
+img { display: block; max-width: 100%; height: auto; }
+a { color: var(--roodbruin); }
+a:focus-visible, summary:focus-visible { outline: 3px solid var(--geel); outline-offset: 2px; }
+h1, h2, h3, h4 {
+  font-family: var(--kopletter);
+  font-weight: 400;
+  letter-spacing: .02em;
+  line-height: 1.05;
+  margin: 0 0 .5em;
+  color: var(--bruin);
+  text-transform: uppercase;
+}
+h1 { font-size: clamp(2.2rem, 6vw, 4rem); }
+h2 { font-size: clamp(2rem, 4.5vw, 3rem); }
+h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
+h4 { font-size: 1.25rem; color: var(--roodbruin); margin-bottom: .2em; }
+p { margin: 0 0 1em; }
+ul, ol { margin: 0 0 1em; padding-left: 1.3em; }
+blockquote { margin: 0; }
+.wrap { max-width: var(--breedte); margin-inline: auto; padding-inline: var(--marge); }
+.sectie { padding-block: clamp(2.5rem, 6vw, 4.5rem); scroll-margin-top: var(--nav-hoogte); }
+.sectie--kopband { padding-top: 0; }
+.visueel-verborgen {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+.skip-link {
+  position: absolute; left: var(--marge); top: -100px; z-index: 100;
+  background: var(--geel); color: var(--bruin); padding: .5em 1em;
+  font-family: var(--kopletter); font-size: 1.2rem; text-transform: uppercase;
+}
+.skip-link:focus { top: 8px; }
+
+/* Bijbelcitaten in lopende tekst: citaat roodbruin, verwijzing bruin en vet. */
+q { quotes: '“' '”'; color: var(--roodbruin); }
+.verw { font-style: normal; color: var(--bruin); font-weight: 600; font-size: .9em; white-space: nowrap; }
+.kop--groen { color: var(--groen); }
+.intro { font-size: 1.1em; font-weight: 600; margin-bottom: 1.5rem; }
+
+/* ===== Componenten ===== */
+.kaart { background: var(--creme); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--schaduw); }
+.kaart > :last-child { margin-bottom: 0; }
+.kopbalk {
+  display: inline-block; background: var(--bruin); color: var(--creme);
+  border-radius: var(--radius); padding: .35em .7em .25em;
+}
+.cirkel {
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+  width: 2.5rem; height: 2.5rem; border-radius: 50%;
+  background: var(--bruin); color: #fff; font-family: var(--kopletter); font-size: 1.6rem; line-height: 1;
+}
+.badge {
+  display: inline-block; background: var(--geel); color: var(--bruin);
+  font-family: var(--kopletter); font-size: 1.2rem; letter-spacing: .04em; text-transform: uppercase;
+  padding: .3em .7em .2em; border-radius: 8px;
+}
+.uitlichting { background: var(--geel); color: var(--bruin); border-radius: var(--radius); padding: 1rem 1.25rem; font-weight: 600; }
+.vlak { border-radius: var(--radius); padding: 1rem 1.25rem; margin: 0; }
+.vlak > :last-child { margin-bottom: 0; }
+.vlak--creme { background: var(--creme); color: var(--bruin); }
+.vlak--lei { background: var(--lei); color: var(--tekst); }
+.vlak--donker { background: rgba(43, 33, 24, .88); color: var(--creme); }
+.vlak--oranje { background: var(--oranje); color: var(--bruin); }
+.vlak--bruin { background: var(--bruin); color: var(--creme); }
+.vlak--donker q, .vlak--bruin q { color: var(--geel); }
+.vlak--donker .verw, .vlak--bruin .verw { color: var(--creme); }
+.vlak--oranje q { color: var(--bruin); }
+.kolommen { display: grid; gap: 1.5rem; }
+@media (min-width: 720px) { .kolommen { grid-template-columns: 1fr 1fr; } }
+.knop {
+  display: inline-block; background: var(--geel); color: var(--bruin);
+  font-family: var(--kopletter); font-size: 1.3rem; letter-spacing: .04em; text-transform: uppercase;
+  text-decoration: none; padding: .55em 1.1em .45em; border-radius: 8px;
+}
+
+/* Posterteksten: Bebas-kapitalen op een vlak, zoals de posterpagina's van de brochure. */
+.poster-tekst {
+  font-family: var(--kopletter); font-size: clamp(1.4rem, 3.5vw, 2.4rem);
+  line-height: 1.15; letter-spacing: .02em; text-transform: uppercase;
+}
+.poster-tekst p { margin: 0; }
+.poster-tekst q { color: inherit; }
+.poster-tekst .verw {
+  display: block; font-family: inherit; font-size: .8em; font-weight: 400;
+  color: inherit; opacity: .85; margin-top: .2em; white-space: normal;
+}
+
+/* Rustpunt: beeldband met tekstvlakken. */
+.poster { position: relative; min-height: 70vh; display: flex; align-items: center; overflow: hidden; padding-block: 3rem; }
+.poster__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.poster__inhoud { position: relative; width: 100%; display: grid; gap: 1rem; }
+.poster__inhoud > * { max-width: 40rem; }
+.poster__inhoud > .rechts { justify-self: end; }
+.poster--midden .poster__inhoud { justify-items: center; text-align: center; }
+.poster--verdeeld { align-items: stretch; }
+.poster--verdeeld .poster__inhoud { align-content: space-between; min-height: 60vh; }
+
+/* Kopband: beeld boven een sectie met de kop erop. */
+.kopband { position: relative; height: 40vh; min-height: 220px; display: flex; align-items: flex-end; margin-bottom: 2rem; overflow: hidden; }
+.kopband img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.kopband .wrap { position: relative; width: 100%; padding-bottom: 1.25rem; }
+
+/* Beeldsectie: foto als achtergrond onder kaarten. */
+.beeldsectie { position: relative; overflow: hidden; }
+.beeldsectie__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.beeldsectie--donker::before { content: ''; position: absolute; inset: 0; background: rgba(43, 33, 24, .35); }
+.beeldsectie > .wrap { position: relative; }
+
+/* ===== Navigatie ===== */
+.nav { position: sticky; top: 0; z-index: 50; background: var(--bruin); }
+.nav__wrap { display: flex; align-items: center; gap: 1rem; min-height: var(--nav-hoogte); }
+.nav__logo { flex-shrink: 0; background: var(--creme); border-radius: 8px; padding: 4px 8px; }
+.nav__logo img { height: 36px; width: auto; }
+.nav__links {
+  display: flex; gap: .25rem; list-style: none; margin: 0 0 0 auto; padding: 0;
+  overflow-x: auto; white-space: nowrap; scrollbar-width: none;
+}
+.nav__links::-webkit-scrollbar { display: none; }
+.nav__links a {
+  display: block; padding: .5rem .6rem; border-bottom: 3px solid transparent;
+  font-family: var(--kopletter); font-size: 1.25rem; letter-spacing: .04em; text-transform: uppercase;
+  color: var(--creme); text-decoration: none;
+}
+.nav__links a:hover { border-bottom-color: var(--geel); }
+
+/* ===== Hero ===== */
+.hero { position: relative; min-height: 92vh; display: flex; align-items: flex-end; overflow: hidden; color: var(--creme); scroll-margin-top: var(--nav-hoogte); }
+.hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(59, 35, 20, .55) 0%, rgba(59, 35, 20, .1) 35%, rgba(59, 35, 20, .75) 100%);
+}
+.hero__inhoud { position: relative; padding-block: 2.5rem 3rem; display: grid; gap: 1.5rem; }
+@media (min-width: 900px) { .hero__inhoud { grid-template-columns: 1.4fr 1fr; align-items: end; } }
+.hero__kop { background: rgba(59, 35, 20, .78); border-radius: var(--radius); padding: 1.25rem 1.5rem; }
+.hero__kop h1 { color: var(--creme); margin: .4em 0 .3em; }
+.hero__kop .verw { color: var(--geel); font-family: var(--kopletter); font-size: 1.3rem; font-weight: 400; }
+.hero__kaart { color: var(--tekst); }
+.hero__kaart img { width: 120px; float: right; margin: 0 0 .5rem 1rem; border-radius: 10px; }
+.hero__naam { font-family: var(--kopletter); font-size: 1.6rem; line-height: 1; text-transform: uppercase; margin-bottom: .4em; }
+.hero__kaart .badge { margin: .5rem 0 1rem; }
+.hero__citaat { font-family: var(--kopletter); font-size: clamp(1.2rem, 2.5vw, 1.6rem); line-height: 1.15; letter-spacing: .02em; text-transform: uppercase; margin: 0; clear: both; }
+
+/* ===== Secties ===== */
+/* (per sectie toegevoegd in de taken 4 tot en met 7) */
+
+/* ===== Footer ===== */
+.voet { background: var(--bruin); color: var(--creme); padding: 2.5rem 0; text-align: center; }
+.voet a { color: var(--geel); }
+.voet__logos { list-style: none; padding: 0; margin: 0 0 1.5rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
+.voet__logos a { display: flex; align-items: center; justify-content: center; height: 84px; padding: .6rem 1rem; background: var(--creme); border-radius: 10px; }
+.voet__logos img { max-height: 64px; width: auto; }
+.voet .knop { color: var(--bruin); margin-top: .5rem; }
+
+/* ===== Print ===== */
+@media print {
+  .nav, .skip-link, .hero__img, .hero::before, .poster__img, .beeldsectie__img, .beeldsectie--donker::before,
+  .kopband img, .knop { display: none; }
+  .hero, .poster, .kopband { min-height: 0; height: auto; }
+  .hero { color: var(--tekst); }
+  .hero__kop { background: none; padding: 0; }
+  .hero__kop h1 { color: var(--bruin); }
+  .vlak--donker { background: none; color: var(--tekst); border: 1px solid var(--bruin); }
+  .vlak--donker q { color: var(--roodbruin); }
+  a[href^="http"]::after { content: ' (' attr(href) ')'; font-size: .85em; }
+}
