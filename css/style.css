@@ -253,7 +253,40 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
 /* Rustpunt met donkere foto: vier lei-vlakken onder elkaar, gecentreerd. */
 #rust-gemeenschap { background: #2f3236; }
 
-/* (secties 9 tot en met 15 volgen hier) */
+/* Geven */
+.geven__intro { display: inline-block; font-family: var(--kopletter); font-size: 1.3rem; letter-spacing: .03em; text-transform: uppercase; margin: 1rem 0 1.5rem; }
+.geven__citaten { display: grid; gap: 1rem; margin-bottom: 1.5rem; }
+@media (min-width: 720px) { .geven__citaten { grid-template-columns: 1fr 1fr; } }
+.geven__vraag { margin-bottom: 1rem; }
+.geven__slot { margin: 0; }
+
+/* Fiscaal */
+.sectie--fiscaal { padding-bottom: 0; }
+.fiscaal__sub { font-family: var(--kopletter); font-size: 1.4rem; letter-spacing: .03em; text-transform: uppercase; color: var(--roodbruin); margin: .5rem 0 1.5rem; }
+.fiscaal__grid { display: grid; gap: 2rem; }
+@media (min-width: 900px) { .fiscaal__grid { grid-template-columns: 2fr 1fr; } }
+.fiscaal__grid h3 { margin-top: 1.25rem; }
+.fiscaal__grid h3:first-child { margin-top: 0; }
+.fiscaal__zij { display: grid; gap: 1.5rem; align-content: start; }
+.fiscaal__zij img { width: 140px; }
+.onderband { width: 100%; height: 40vh; min-height: 220px; object-fit: cover; object-position: 50% 70%; margin-top: 3rem; }
+
+/* Gegevens */
+.gegevens { background: var(--bruin); color: var(--creme); }
+.gegevens h2, .gegevens h3 { color: var(--geel); }
+.gegevens__grid { display: grid; gap: 2rem; align-items: start; }
+@media (min-width: 720px) { .gegevens__grid { grid-template-columns: 1fr auto; } }
+.gegevens__lijst { display: grid; grid-template-columns: max-content 1fr; gap: .4rem 1.5rem; margin: 0 0 1.5rem; }
+.gegevens__lijst dt { font-family: var(--kopletter); font-size: 1.15rem; letter-spacing: .04em; text-transform: uppercase; color: var(--geel); }
+.gegevens__lijst dd { margin: 0; }
+.gegevens__iban { font-family: var(--kopletter); font-size: clamp(1.6rem, 4vw, 2.4rem); letter-spacing: .06em; line-height: 1; user-select: all; }
+.gegevens__anbi { width: 160px; background: #fff; border-radius: 8px; padding: 6px; }
+@media (max-width: 480px) {
+  .gegevens__lijst { grid-template-columns: 1fr; gap: .1rem; }
+  .gegevens__lijst dd { margin-bottom: .8rem; }
+}
+
+/* (secties 12 tot en met 15 volgen hier) */
 
 /* ===== Footer ===== */
 .voet { background: var(--bruin); color: var(--creme); padding: 2.5rem 0; text-align: center; }
