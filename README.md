@@ -40,7 +40,10 @@ GitHub Pages).
    Na het aanpassen van de DNS gaat HTTPS aan bij de volgende push, of direct via
    *Actions → Deploy website → Run workflow*.
 
-De workflow gebruikt de organisatiesecret `DEPLOY_SSH_KEY` van `kleine-ark`. Dankzij relatieve paden
+De workflow heeft het secret `DEPLOY_SSH_KEY` nodig als **repository-secret** van deze repo (Settings →
+Secrets and variables → Actions), met dezelfde deploy-sleutel als de andere sites. De organisatie
+`kleine-ark` zit op GitHub Free; daar krijgen privé-repo's de organisatiesecret met die naam niet
+doorgegeven, en stopt de workflow met "The ssh-private-key argument is empty". Dankzij relatieve paden
 werkt de site ook als submap op een andere site; kopieer dan `index.html`, `css/`, `img/`, `fonts/`,
 `brochure/` en `robots.txt`.
 
