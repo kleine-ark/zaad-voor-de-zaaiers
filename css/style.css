@@ -117,6 +117,13 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
 .punten { padding-left: 1.2em; }
 .punten li { margin-bottom: .35em; }
 .punten li::marker { color: var(--roodbruin); }
+/* Vragen van de gever: per vraag een kaartje met een geel rondje en een vraagteken als bullet. */
+.vragen { list-style: none; padding: 0; margin: 0 0 .9em; display: grid; gap: .55rem; }
+.vragen li { position: relative; padding: .6rem .9rem .6rem 3rem; background: var(--creme); border-radius: 10px; }
+.vragen li::before {
+  content: '?'; position: absolute; left: .75rem; top: .55rem; width: 1.6rem; height: 1.6rem; border-radius: 50%;
+  background: var(--geel); color: var(--bruin); font-family: var(--kopletter); font-size: 1.25rem; line-height: 1.7rem; text-align: center;
+}
 em { font-style: normal; text-decoration: underline; text-decoration-thickness: .08em; text-underline-offset: .1em; }
 .noot { display: flex; gap: .6rem; align-items: flex-start; font-weight: 600; clear: both; }
 .kruis { color: var(--rood); font-size: 1.7em; line-height: 1; }
@@ -178,6 +185,9 @@ em { font-style: normal; text-decoration: underline; text-decoration-thickness: 
   .blok h2 { display: block; width: fit-content; font-size: 12.5pt; margin-bottom: .2em; }
   p, ul, ol { margin-bottom: .5em; }
   .punten li { margin-bottom: .15em; }
+  .vragen { gap: .12rem; margin-bottom: .4em; }
+  .vragen li { background: none; padding: 0 0 0 1.35rem; }
+  .vragen li::before { left: 0; top: .08rem; width: 1rem; height: 1rem; font-size: .8rem; line-height: 1.05rem; background: none; border: 1px solid var(--bruin); }
   .uitlichting, .citaatblok, .oproep { background: none; border: 1px solid var(--bruin); box-shadow: none; padding: .3rem .6rem; }
   .citaatblok { border-left-width: 4px; border-radius: 0; }
   .oproep p { font-size: 12pt; margin-bottom: 0; }

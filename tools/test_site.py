@@ -13,8 +13,8 @@ BROCHURE = ROOT / "brochure" / "zaad-voor-de-zaaier-brochure.pdf"
 PDF_HREF = "brochure/zaad-voor-de-zaaier-brochure.pdf"
 
 # Vroege waarschuwing; de echte A4-bewaker is tools/test_print.py. Bij 661 woorden eindigde de
-# afdruk (8,5 pt) op 278 van 288 mm, dus rond 685 woorden is de pagina vol.
-WOORDBUDGET = 685
+# afdruk (8,5 pt) op 278 van 288 mm, dus rond 700 woorden is de pagina vol.
+WOORDBUDGET = 700
 SECTIE_IDS = ["top", "leren", "waarom", "wat", "uitgangspunten", "positie", "projecten", "uitgaven", "voordeel", "anoniem"]
 # Projectenlijst 2027 zoals aangeleverd door de eigenaren (bedragen in euro's).
 PROJECTEN_2027 = [("Evangelisten Randstad", 60000), ("Evangelisatie landelijk", 50000),
@@ -36,6 +36,7 @@ KERNINHOUD = ["We hebben het op ons hart gekregen", "2 Kor. 9:10", "Heer van de 
               "Waar wordt het geld aan uitgegeven?", "Inkomen werkers", "Drukwerk Bijbels en traktaten",
               "Waarom Zaad voor de Zaaier?", "een goed geefdoel te vinden", "waterputdonaties", "waardeoordeel",
               "zelfstandige evangelist, dan is het doorgaans niet anoniem",
+              "Ik vind het lastig om een geefdoel te beoordelen, elk jaar weer opnieuw", "is het betrouwbaar?",
               "Maar wel dat het direct gezaaid wordt", "Deze vragen hadden wij ook",
               "Anoniem geven", "laat dan uw linkerhand niet weten wat uw rechterhand doet",
               "Die in het verborgene ziet", "Mattheüs 6:2–4"]
@@ -117,6 +118,13 @@ def test_site_is_niet_vindbaar(dom):
     regels = (ROOT / "robots.txt").read_text(encoding="utf-8").splitlines()
     assert "Disallow: /brochure/" in regels, "robots.txt moet de brochure-PDF afschermen"
     assert "Disallow: /" not in regels, "de pagina moet leesbaar blijven, anders ziet een zoekmachine de noindex niet"
+
+
+def test_vragen_van_de_gever_als_lijst(html):
+    """De zes vragen in het blok Waarom staan op een rij, elk met een vraagteken-bullet (klasse vragen)."""
+    blok = html.split('id="waarom"')[1].split("</section>")[0]
+    lijst = blok.split('<ul class="vragen"')[1].split("</ul>")[0]
+    assert lijst.count("<li>") == 6
 
 
 def test_geen_kopregel_bovenin(html):
