@@ -16,7 +16,7 @@ werkt en hoe u meedoet. Het project is ondergebracht in Stichting Werkers in de 
 | `docs/` | Ontwerpspecs en implementatieplannen: alleen lokaal, staat in `.gitignore` en niet in deze openbare repo. |
 
 Een uitgebreide versie van de pagina met de volledige brochure-inhoud (alle bijbelteksten,
-bedieningspaden en grondslag) staat in de git-geschiedenis, laatst in commit `8676075`.
+bedieningspaden en grondslag) staat in de git-geschiedenis, laatst in commit `e55173e`.
 
 ## Hosten
 
@@ -40,10 +40,11 @@ GitHub Pages).
    Na het aanpassen van de DNS gaat HTTPS aan bij de volgende push, of direct via
    *Actions → Deploy website → Run workflow*.
 
-De workflow heeft het secret `DEPLOY_SSH_KEY` nodig als **repository-secret** van deze repo (Settings →
-Secrets and variables → Actions), met dezelfde deploy-sleutel als de andere sites. De organisatie
-`kleine-ark` zit op GitHub Free; daar krijgen privé-repo's de organisatiesecret met die naam niet
-doorgegeven, en stopt de workflow met "The ssh-private-key argument is empty". Dankzij relatieve paden
+De workflow gebruikt de organisatiesecret `DEPLOY_SSH_KEY` van `kleine-ark`. Dat werkt omdat deze repo
+openbaar is: de organisatie zit op GitHub Free, en daar krijgen privé-repo's organisatiesecrets niet
+doorgegeven (de workflow stopt dan met "The ssh-private-key argument is empty"). Wordt de repo weer
+privé, zet dan dezelfde sleutel als repository-secret (Settings → Secrets and variables → Actions).
+Dankzij relatieve paden
 werkt de site ook als submap op een andere site; kopieer dan `index.html`, `css/`, `img/`, `fonts/`,
 `brochure/` en `robots.txt`.
 
