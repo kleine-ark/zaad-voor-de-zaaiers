@@ -167,9 +167,12 @@ def test_kerninhoud_in_leesbare_tekst(dom):
 
 def test_projecten_2027_met_exacte_bedragen(html):
     """Namen en bedragen in de tabel komen een-op-een overeen met de aangeleverde lijst."""
-    rijen = re.findall(r'<tr><th scope="row">([^<]+)</th><td>€&nbsp;([\d.]+)</td></tr>', html)
-    gevonden = [(naam, int(bedrag.replace(".", ""))) for naam, bedrag in rijen]
+    patroon = r'<tr><th scope="row">([^<]+)</th><td>€&nbsp;([\d.]+)</td></tr>'
+    romp, voet = html.split("<tfoot>")
+    gevonden = [(naam, int(bedrag.replace(".", ""))) for naam, bedrag in re.findall(patroon, romp)]
     assert gevonden == PROJECTEN_2027
+    totaal = [(naam, int(bedrag.replace(".", ""))) for naam, bedrag in re.findall(patroon, voet)]
+    assert totaal == [("Totaal", sum(bedrag for _, bedrag in PROJECTEN_2027))], "totaalregel moet de som van de projecten zijn"
 
 
 def test_geen_verboden_tekst(html):

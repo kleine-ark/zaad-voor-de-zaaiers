@@ -62,7 +62,7 @@ de naam is overal "Zaad voor de Zaaier"; taalcorrecties ("hiermee", "ons werk ze
 de afgebroken toevoeging "voor zover" achter "Verspreiding van het evangelie online" is weggelaten
 tot hij wordt aangevuld. In de projectenlijst 2027 zijn de bedragen overgenomen zoals aangeleverd;
 alleen de spelling is aangepast ("Randstad", "discipelschapsvideo’s", "Moslimevangelisatie",
-"Jongerenevangelisatie"). Er staat geen totaalregel, omdat die niet is aangeleverd. Het paneel "Meedoen" (IBAN, tenaamstelling, fiscale regels) is op verzoek van de eigenaren van de
+"Jongerenevangelisatie"). De totaalregel (€ 606.000) is de som van de zes bedragen; een test bewaakt dat hij klopt als een bedrag wijzigt. Het paneel "Meedoen" (IBAN, tenaamstelling, fiscale regels) is op verzoek van de eigenaren van de
 pagina gehaald; de pagina bevat geen giftgegevens meer. Let op: de brochure-PDF heeft op de plek
 van het IBAN een invulveld.
 De brochure-PDF is de bestaande brochure, inclusief de bekende onvolkomenheden (invulveld bij het

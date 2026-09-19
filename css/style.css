@@ -135,7 +135,8 @@ em { font-style: normal; text-decoration: underline; text-decoration-thickness: 
 .begroting th, .begroting td { padding: .5rem .75rem; text-align: left; border-bottom: 1px solid rgba(59, 35, 20, .15); }
 .begroting th { font-weight: 600; }
 .begroting td { text-align: right; font-weight: 700; white-space: nowrap; color: var(--bruin); }
-.begroting tr:nth-child(odd) { background: var(--creme); }
+.begroting tbody tr:nth-child(odd) { background: var(--creme); }
+.begroting tfoot th, .begroting tfoot td { border-top: 2px solid var(--bruin); border-bottom: 0; font-weight: 700; font-size: 1.05em; }
 .oproep { margin-top: 1.25rem; background: var(--creme); border-radius: var(--radius); padding: 1rem 1.25rem; box-shadow: var(--schaduw); }
 .oproep p { font-family: var(--kopletter); font-size: 1.5rem; line-height: 1.1; letter-spacing: .02em; text-transform: uppercase; color: var(--bruin); margin: 0 0 .6rem; }
 
@@ -180,7 +181,7 @@ em { font-style: normal; text-decoration: underline; text-decoration-thickness: 
   .oproep .knop { display: none; }
   .begroting { break-inside: avoid; }
   .begroting th, .begroting td { padding: .12rem .4rem; }
-  .begroting tr:nth-child(odd) { background: none; }
+  .begroting tbody tr:nth-child(odd) { background: none; }
   /* URL achter links waarvan de tekst niet al het adres is. */
   a[href^="http"]:not(.url)::after { content: ' (' attr(href) ')'; font-size: .85em; }
   h2, h3 { break-after: avoid; }
