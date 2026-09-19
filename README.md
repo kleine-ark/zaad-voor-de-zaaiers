@@ -65,7 +65,8 @@ De tekst van de voorpagina is door de eigenaren aangeleverd (2026-09-19) en lich
 de naam is overal "Zaad voor de Zaaier"; taalcorrecties ("hiermee", "ons werk zegent", "koffiekar",
 "moslims", "in het verspreiden"); de school heet volgens haar eigen site "Bijbelschool Filadelfia";
 de afgebroken toevoeging "voor zover" achter "Verspreiding van het evangelie online" is weggelaten
-tot hij wordt aangevuld. In de projectenlijst 2027 zijn de bedragen overgenomen zoals aangeleverd;
+tot hij wordt aangevuld. In "Waarom Zaad voor de Zaaier?" zijn tikfouten hersteld ("het nu van" → "het nut van",
+dubbel "sommige", "waardeoordeel" aaneen, "christen" met kleine letter, vraagteken bij de vraag over diaconaal werk). In de projectenlijst 2027 zijn de bedragen overgenomen zoals aangeleverd;
 alleen de spelling is aangepast ("Randstad", "discipelschapsvideo’s", "Moslimevangelisatie",
 "Jongerenevangelisatie"). De totaalregel (€ 606.000) is de som van de zes bedragen; een test bewaakt dat hij klopt als een bedrag wijzigt. Het paneel "Meedoen" (IBAN, tenaamstelling, fiscale regels) is op verzoek van de eigenaren van de
 pagina gehaald; onderaan de pagina staan alleen nog "Stichting Werkers in de Wijngaard" en het rekeningnummer. Let op: de brochure-PDF heeft op de plek

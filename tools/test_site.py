@@ -12,16 +12,16 @@ CSS = ROOT / "css" / "style.css"
 BROCHURE = ROOT / "brochure" / "zaad-voor-de-zaaier-brochure.pdf"
 PDF_HREF = "brochure/zaad-voor-de-zaaier-brochure.pdf"
 
-# Vroege waarschuwing; de echte A4-bewaker is tools/test_print.py. Bij 515 woorden eindigde de
-# afdruk op 263 van 287 mm, dus rond 560 woorden is de pagina vol.
-WOORDBUDGET = 560
-SECTIE_IDS = ["top", "leren", "wat", "uitgangspunten", "positie", "projecten", "uitgaven", "voordeel", "anoniem"]
+# Vroege waarschuwing; de echte A4-bewaker is tools/test_print.py. Bij 661 woorden eindigde de
+# afdruk (8,5 pt) op 278 van 288 mm, dus rond 685 woorden is de pagina vol.
+WOORDBUDGET = 685
+SECTIE_IDS = ["top", "leren", "waarom", "wat", "uitgangspunten", "positie", "projecten", "uitgaven", "voordeel", "anoniem"]
 # Projectenlijst 2027 zoals aangeleverd door de eigenaren (bedragen in euro's).
 PROJECTEN_2027 = [("Evangelisten Randstad", 60000), ("Evangelisatie landelijk", 50000),
                   ("Nieuwe evangelisten Hebron", 180000), ("Online discipelschapsvideo’s", 12000),
                   ("Moslimevangelisatie", 250000), ("Jongerenevangelisatie", 54000)]
 # Hoofdlettergevoelig; tikfouten, verkeerde spellingen en dingen die niet op de site horen.
-VERBODEN = ["Zaaiers", "maarten.jpg", "stefan.jpg", "logo-anbi.png", "discipelschapsvideos",
+VERBODEN = ["Zaaiers", "anoninem", "zelfstandige evangelie ", "niet zelf teveel", "sommige sommige", "het nu van", "waarde-oordeel", "maarten.jpg", "stefan.jpg", "logo-anbi.png", "discipelschapsvideos",
             "Moslim evangelisatie", "Jongeren evangelisatie", "zaaiers richt", "NL.....", "Eein", "betekend", "opleverd", "vind u",
             "luid:", "hiemee", "bedieninsvarianten", "Matth.55", "1 kor.", "word vergeleken",
             "gebeurd er", "verspreid daarmee", "stichting ondersteund", "werkt zegent", "koffie kar",
@@ -34,12 +34,15 @@ KERNINHOUD = ["We hebben het op ons hart gekregen", "2 Kor. 9:10", "Heer van de 
               "Arjan Baan", "Mogen we 5 minuten van uw tijd", "Open hier de brochure",
               "richt zich op het financieel ondersteunen van", "2027 projecten",
               "Waar wordt het geld aan uitgegeven?", "Inkomen werkers", "Drukwerk Bijbels en traktaten",
+              "Waarom Zaad voor de Zaaier?", "een goed geefdoel te vinden", "waterputdonaties", "waardeoordeel",
+              "zelfstandige evangelist, dan is het doorgaans niet anoniem",
+              "Maar wel dat het direct gezaaid wordt", "Deze vragen hadden wij ook",
               "Anoniem geven", "laat dan uw linkerhand niet weten wat uw rechterhand doet",
               "Die in het verborgene ziet", "Mattheüs 6:2–4"]
 STICHTINGEN = ("https://www.hebronmissie.nl", "https://www.werkersindewijngaard.nl")
 TOKENS = ["--bruin", "--creme", "--papier", "--geel", "--oranje", "--sage", "--lichtblauw",
           "--lei", "--groen", "--roodbruin", "--tekst"]
-# Beelden boven de vouw worden niet lui geladen: de hero en (via de lus) het kopregel-logo.
+# Alleen de hero staat boven de vouw en wordt niet lui geladen.
 NIET_LUI = {"img/hero-zaaier.jpg"}
 
 
@@ -116,6 +119,11 @@ def test_site_is_niet_vindbaar(dom):
     assert "Disallow: /" not in regels, "de pagina moet leesbaar blijven, anders ziet een zoekmachine de noindex niet"
 
 
+def test_geen_kopregel_bovenin(html):
+    """Op verzoek van de eigenaren: geen balk met logo en downloadknop boven het titelblok."""
+    assert "<header" not in html and "kopregel" not in html
+
+
 def test_skip_link_en_main(html):
     assert 'class="skip-link" href="#inhoud"' in html
     assert '<main id="inhoud">' in html
@@ -148,7 +156,6 @@ def test_een_h2_per_sectie(dom):
 def test_afbeeldingen_bestaan_met_alt_en_juiste_maten(dom):
     imgs = [a for t, a in dom.tags if t == "img"]
     assert imgs, "geen afbeeldingen gevonden"
-    kopregel_logo_gezien = False
     for a in imgs:
         pad = ROOT / a["src"]
         assert pad.exists(), f"{a['src']} ontbreekt"
@@ -156,10 +163,7 @@ def test_afbeeldingen_bestaan_met_alt_en_juiste_maten(dom):
         w, h = Image.open(pad).size
         assert (int(a["width"]), int(a["height"])) == (w, h), \
             f"{a['src']}: attributen {a.get('width')}x{a.get('height')}, bestand {w}x{h}"
-        eerste_logo = a["src"] == "img/logo-zaad-voor-de-zaaier.png" and not kopregel_logo_gezien
-        if eerste_logo:
-            kopregel_logo_gezien = True
-        elif a["src"] not in NIET_LUI:
+        if a["src"] not in NIET_LUI:
             assert a.get("loading") == "lazy", f"{a['src']} mist loading=lazy"
 
 
@@ -203,7 +207,8 @@ def test_rekeningnummer_onderaan_en_geen_blok_meedoen(html, dom):
     voet = re.sub(r"\s+", " ", " ".join(dom.voet_tekst))
     assert "Stichting Werkers in de Wijngaard NL83 RABO 0310 5957 62" in voet
     assert iban_geldig("NL83 RABO 0310 5957 62")
-    assert "NL83 RABO 0310 5957 62" not in " ".join(dom.main_tekst).split("Stichting Hebron Missie.")[0], "het nummer hoort alleen onderaan"
+    assert " ".join(dom.main_tekst).count("NL83 RABO 0310 5957 62") == 1, \
+        "in <main> staat het nummer alleen in de alleen-print-regel onderaan"
     assert 'id="meedoen"' not in html and "periodieke gift" not in html
 
 

@@ -1,4 +1,4 @@
-/* Zaad voor de Zaaier, samenvatting op een A4. Volgorde: fonts, tokens, basis, componenten, kopregel, kopband, tekstkolom, footer, print. */
+/* Zaad voor de Zaaier, samenvatting op een A4. Volgorde: fonts, tokens, basis, componenten, kopband, tekstkolom, footer, print. */
 
 /* ===== Lettertypen ===== */
 @font-face {
@@ -91,13 +91,6 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
   font-family: var(--kopletter); font-size: 1.3rem; letter-spacing: .04em; text-transform: uppercase;
   text-decoration: none; padding: .55em 1.1em .45em; border-radius: 8px;
 }
-.knop--klein { font-size: 1.1rem; padding: .45em .9em .35em; }
-
-/* ===== Kopregel ===== */
-.kopregel { background: var(--bruin); }
-.kopregel__wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 64px; padding-block: .5rem; }
-.kopregel__logo { flex-shrink: 0; background: var(--creme); border-radius: 8px; padding: 4px 8px; }
-.kopregel__logo img { height: 40px; width: auto; }
 
 /* ===== Kopband ===== */
 .kopband { position: relative; min-height: max(36vh, 260px); display: flex; align-items: flex-end; overflow: hidden; color: var(--creme); }
@@ -160,19 +153,19 @@ em { font-style: normal; text-decoration: underline; text-decoration-thickness: 
 
 /* ===== Print: de hele pagina op een A4 ===== */
 @media print {
-  @page { size: A4; margin: 10mm; }
-  html { font-size: 9pt; }
-  body { background: #fff; color: #000; line-height: 1.35; }
-  /* Kopregel, foto en voettekst blijven weg. Een kolommenblok eist in print de rest van de pagina op,
+  @page { size: A4; margin: 9mm; }
+  html { font-size: 8.5pt; }
+  body { background: #fff; color: #000; line-height: 1.3; }
+  /* Foto en voettekst blijven weg. Een kolommenblok eist in print de rest van de pagina op,
      dus de voettekstregel staat als .alleen-print aan het eind van de kolommen. */
-  .skip-link, .kopregel, .kopband__img, .kopband::before, .voet { display: none; }
+  .skip-link, .kopband__img, .kopband::before, .voet { display: none; }
   .alleen-print { display: block; font-size: 8.5pt; border-top: 1px solid var(--bruin); padding-top: .3rem; margin: .6rem 0 0; break-inside: avoid; }
   .wrap { max-width: none; padding-inline: 0; }
   .kopband { min-height: 0; display: block; color: var(--bruin); overflow: visible; }
   .kopband__inhoud { padding: 0 0 .5rem; }
-  .kopband h1 { color: var(--bruin); font-size: 22pt; }
+  .kopband h1 { color: var(--bruin); font-size: 20pt; }
   .kopband__intro { color: var(--roodbruin); font-size: 11pt; }
-  .kopband__citaat { font-size: 14pt; }
+  .kopband__citaat { font-size: 13pt; }
   .kopband__vlak { background: none; padding: 0; max-width: none; }
   .kopband__citaat q { color: var(--roodbruin); }
   .kopband__citaat .verw { color: var(--bruin); }
@@ -182,7 +175,7 @@ em { font-style: normal; text-decoration: underline; text-decoration-thickness: 
   /* Compacte witruimte: de tekst wordt nog aangevuld en moet op een A4 blijven. */
   .blok + .blok { margin-top: .6rem; }
   /* Blokniveau, anders werkt break-after: avoid niet en raakt een kop los van zijn tabel of lijst. */
-  .blok h2 { display: block; width: fit-content; font-size: 14pt; margin-bottom: .25em; }
+  .blok h2 { display: block; width: fit-content; font-size: 12.5pt; margin-bottom: .2em; }
   p, ul, ol { margin-bottom: .5em; }
   .punten li { margin-bottom: .15em; }
   .uitlichting, .citaatblok, .oproep { background: none; border: 1px solid var(--bruin); box-shadow: none; padding: .3rem .6rem; }
