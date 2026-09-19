@@ -21,7 +21,7 @@ PROJECTEN_2027 = [("Evangelisten Randstad", 60000), ("Evangelisatie landelijk", 
                   ("Nieuwe evangelisten Hebron", 180000), ("Online discipelschapsvideo’s", 12000),
                   ("Moslimevangelisatie", 250000), ("Jongerenevangelisatie", 54000)]
 # Hoofdlettergevoelig; tikfouten, verkeerde spellingen en dingen die niet op de site horen.
-VERBODEN = ["Zaaiers", "anoninem", "zelfstandige evangelie ", "niet zelf teveel", "sommige sommige", "het nu van", "waarde-oordeel", "maarten.jpg", "stefan.jpg", "logo-anbi.png", "discipelschapsvideos",
+VERBODEN = ["Zaaiers", "daar nu ook echt door verkondigd", "anoninem", "zelfstandige evangelie ", "niet zelf teveel", "sommige sommige", "het nu van", "waarde-oordeel", "maarten.jpg", "stefan.jpg", "logo-anbi.png", "discipelschapsvideos",
             "Moslim evangelisatie", "Jongeren evangelisatie", "zaaiers richt", "NL.....", "Eein", "betekend", "opleverd", "vind u",
             "luid:", "hiemee", "bedieninsvarianten", "Matth.55", "1 kor.", "word vergeleken",
             "gebeurd er", "verspreid daarmee", "stichting ondersteund", "werkt zegent", "koffie kar",
@@ -37,6 +37,7 @@ KERNINHOUD = ["We hebben het op ons hart gekregen", "2 Kor. 9:10", "Heer van de 
               "Waarom Zaad voor de Zaaier?", "een goed geefdoel te vinden", "waterputdonaties", "waardeoordeel",
               "zelfstandige evangelist, dan is het doorgaans niet anoniem",
               "Ik vind het lastig om een geefdoel te beoordelen, elk jaar weer opnieuw", "is het betrouwbaar?",
+              "maar ik wil graag dat het evangelie meer verkondigd wordt",
               "Maar wel dat het direct gezaaid wordt", "Deze vragen hadden wij ook",
               "Anoniem geven", "laat dan uw linkerhand niet weten wat uw rechterhand doet",
               "Die in het verborgene ziet", "Mattheüs 6:2–4"]
