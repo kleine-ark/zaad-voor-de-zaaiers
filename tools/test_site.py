@@ -25,11 +25,11 @@ VERBODEN = ["Zaaiers", "logo-werkers-in-de-wijngaard.png", "daar nu ook echt doo
             "Moslim evangelisatie", "Jongeren evangelisatie", "zaaiers richt", "NL.....", "Eein", "betekend", "opleverd", "vind u",
             "luid:", "hiemee", "bedieninsvarianten", "Matth.55", "1 kor.", "word vergeleken",
             "gebeurd er", "verspreid daarmee", "stichting ondersteund", "werkt zegent", "koffie kar",
-            "Philadelphia", "Filadelphia", "omdat dat wij", "<script"]
+            "Philadelphia", "Filadelphia", "omdat dat wij", "inloophuizen", "<script"]
 # Moet in de leesbare tekst van main + voettekst staan (niet alleen in alt-teksten of attributen).
 KERNINHOUD = ["We hebben het op ons hart gekregen", "2 Kor. 9:10", "Heer van de oogst", "welvaartsevangelie",
               "Werkers in de Wijngaard", "ANBI", "faciliteert sinds 2010 mensen", "Straatevangelisatie", "Kraam met boeken", "koffiekar",
-              "moslims", "openbare scholen", "het Woord op straat klinkt", "diaconaal werk en inloophuizen",
+              "moslims", "openbare scholen", "het Woord op straat klinkt",
               "1 Kor. 15:3–4", "0 euro aan administratieve kosten", "Anonimiteit;", "Hebron Missie", "Bijbelschool Filadelfia",
               "Arjan Baan", "Mogen we 5 minuten van uw tijd", "Open hier de brochure",
               "richt zich op het financieel ondersteunen van", "2027 projecten",
