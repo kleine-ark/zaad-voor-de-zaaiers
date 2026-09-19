@@ -8,3 +8,6 @@ Zaad voor de Zaaier -- Werkers in de Wijngaard -- Hebron Missie (7).pdf
 # Python-cache
 __pycache__/
 .pytest_cache/
+
+# Interne ontwerpdocumenten blijven lokaal; de repo is openbaar
+docs/

@@ -13,7 +13,7 @@ werkt en hoe u meedoet. Het project is ondergebracht in Stichting Werkers in de 
 | `fonts/` | Bebas Neue en Open Sans als woff2, met OFL-licentiebestanden. |
 | `brochure/zaad-voor-de-zaaier-brochure.pdf` | Verkleinde download-versie van de brochure (4,8 MB). |
 | `tools/` | Generatiescripts en pytest-controles. |
-| `docs/superpowers/` | Ontwerpspecs en implementatieplannen. |
+| `docs/` | Ontwerpspecs en implementatieplannen: alleen lokaal, staat in `.gitignore` en niet in deze openbare repo. |
 
 Een uitgebreide versie van de pagina met de volledige brochure-inhoud (alle bijbelteksten,
 bedieningspaden en grondslag) staat in de git-geschiedenis, laatst in commit `8676075`.
