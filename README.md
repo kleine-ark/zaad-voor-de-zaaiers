@@ -56,6 +56,12 @@ domein; staat de site in een submap, neem dan de regel `Disallow: /<submap>/broc
 `og:url` en `og:image` in `index.html` wijzen naar `https://www.zaadvoordezaaiers.nl/`, zodat een
 gedeelde link een voorbeeld met afbeelding toont zodra de site onder HTTPS draait.
 
+## Delen als artefact
+
+`python tools/build-artifact.py` zet een deelbare versie voor claude.ai in `.claude/artifact/` (buiten git):
+dezelfde pagina en beelden, met de brochure als paginabeelden in een venster, omdat een artefact geen
+PDF in een nieuw tabblad kan openen.
+
 ## Opnieuw genereren
 
 Het Canva-origineel van de brochure (`Zaad voor de Zaaier -- Werkers in de Wijngaard -- Hebron Missie (7).pdf`,
