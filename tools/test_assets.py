@@ -15,7 +15,6 @@ GRENZEN = {
     "logo-zaad-voor-de-zaaier.png": None,
     "logo-hebron-missie.png": None,
     "logo-werkers-in-de-wijngaard.png": None,
-    "logo-anbi.png": None,
 }
 AFGELEID = {"favicon.png", "og-image.jpg"}
 
@@ -34,7 +33,7 @@ def test_beeld_bestaat_en_past_binnen_grens(naam):
 
 
 def test_geen_onverwachte_bestanden_in_img():
-    """De pagina gebruikt zeven beelden (geen portretten); alles daarbuiten is ballast in de repo."""
+    """De pagina gebruikt zes beelden (geen portretten, geen ANBI-logo); alles daarbuiten is ballast in de repo."""
     aanwezig = {p.name for p in IMG.iterdir() if p.is_file()}
     assert aanwezig == set(GRENZEN) | AFGELEID, f"onverwacht in img/: {aanwezig ^ (set(GRENZEN) | AFGELEID)}"
 

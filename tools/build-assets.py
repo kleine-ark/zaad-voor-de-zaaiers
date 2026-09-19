@@ -27,7 +27,6 @@ BEELDEN = {
     (1, 0): ("hero-zaaier.jpg", MAX_HERO),
     (2, 2): ("logo-werkers-in-de-wijngaard.png", None),
     (2, 3): ("logo-hebron-missie.png", None),
-    (8, 1): ("logo-anbi.png", None),
     (9, 0): ("logo-zaad-voor-de-zaaier.png", None),
 }
 
@@ -37,7 +36,7 @@ BEELDEN = {
 BRONMATEN = {
     "hero-zaaier.jpg": (1725, 2609),
     "logo-werkers-in-de-wijngaard.png": (292, 53), "logo-hebron-missie.png": (324, 126),
-    "logo-anbi.png": (231, 183), "logo-zaad-voor-de-zaaier.png": (615, 410),
+    "logo-zaad-voor-de-zaaier.png": (615, 410),
 }
 
 

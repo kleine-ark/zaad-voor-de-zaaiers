@@ -1,4 +1,4 @@
-/* Zaad voor de Zaaier, samenvatting op een A4. Volgorde: fonts, tokens, basis, componenten, kopregel, kopband, a4-raster, meedoen, footer, print. */
+/* Zaad voor de Zaaier, samenvatting op een A4. Volgorde: fonts, tokens, basis, componenten, kopregel, kopband, tekstkolom, footer, print. */
 
 /* ===== Lettertypen ===== */
 @font-face {
@@ -81,11 +81,6 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
 .verw { font-style: normal; color: var(--bruin); font-weight: 600; font-size: .9em; white-space: nowrap; }
 
 /* ===== Componenten ===== */
-.cirkel {
-  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
-  width: 2rem; height: 2rem; border-radius: 50%;
-  background: var(--bruin); color: var(--papier); font-family: var(--kopletter); font-size: 1.3rem; line-height: 1;
-}
 .badge {
   display: inline-block; background: var(--geel); color: var(--bruin);
   font-family: var(--kopletter); font-size: 1.2rem; letter-spacing: .04em; text-transform: uppercase;
@@ -112,16 +107,17 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
   background: linear-gradient(180deg, rgba(59, 35, 20, .35) 0%, rgba(59, 35, 20, .1) 30%, rgba(59, 35, 20, .8) 100%);
 }
 .kopband__inhoud { position: relative; width: 100%; padding-block: 2.5rem 1.75rem; }
-.kopband__vlak { max-width: 46rem; background: rgba(59, 35, 20, .78); border-radius: var(--radius); padding: 1rem 1.25rem 1.1rem; }
+.kopband__vlak { max-width: 54rem; background: rgba(59, 35, 20, .78); border-radius: var(--radius); padding: 1rem 1.25rem 1.1rem; }
 .kopband h1 { color: var(--creme); font-size: clamp(2.6rem, 7vw, 4.5rem); margin: .15em 0 .05em; }
 .kopband__intro { font-size: 1.1em; font-weight: 600; color: var(--geel); margin: 0 0 .8em; }
-.kopband__citaat { margin: 0; }
+/* Het kernvers groot, in de kapitalen van de brochure-omslag. */
+.kopband__citaat { margin: 0; font-family: var(--kopletter); font-size: clamp(1.6rem, 4vw, 2.8rem); line-height: 1.1; letter-spacing: .02em; text-transform: uppercase; }
 .kopband__citaat q { color: var(--creme); }
-.kopband__citaat .verw { color: var(--geel); }
+.kopband__citaat .verw { color: var(--geel); font-family: inherit; font-weight: 400; font-size: .75em; }
 
-/* ===== A4-raster: links het verhaal, rechts meedoen ===== */
-.a4 { display: grid; gap: 1.5rem; padding-block: 2rem 2.5rem; }
-@media (min-width: 900px) { .a4 { grid-template-columns: 3fr 2fr; align-items: start; } }
+/* ===== Tekstkolom, links uitgelijnd met het titelblok ===== */
+.a4 { padding-block: 2rem 2.5rem; }
+.a4 > div { max-width: 46rem; }
 .blok + .blok { margin-top: 1.75rem; }
 .blok h2 { display: inline-block; border-bottom: 3px solid var(--geel); padding-bottom: .05em; }
 .blok > p:last-child { margin-bottom: 0; }
@@ -136,21 +132,6 @@ em { font-style: normal; text-decoration: underline; text-decoration-thickness: 
 .citaatblok p { margin: 0; }
 .oproep { margin-top: 1.25rem; background: var(--creme); border-radius: var(--radius); padding: 1rem 1.25rem; box-shadow: var(--schaduw); }
 .oproep p { font-family: var(--kopletter); font-size: 1.5rem; line-height: 1.1; letter-spacing: .02em; text-transform: uppercase; color: var(--bruin); margin: 0 0 .6rem; }
-
-/* ===== Meedoen ===== */
-.meedoen { background: var(--bruin); color: var(--creme); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--schaduw); }
-/* Naast de lange tekstkolom blijft het paneel in beeld. */
-@media (min-width: 900px) { .meedoen { position: sticky; top: 1rem; } }
-.meedoen h2, .meedoen h3 { color: var(--geel); }
-.meedoen q { color: var(--geel); }
-.meedoen .verw { color: var(--creme); }
-.meedoen ul { padding-left: 1.1em; }
-.meedoen__slot { margin-bottom: 0; }
-.meedoen__anbi { width: 110px; background: var(--papier); border-radius: 8px; padding: 5px; margin-top: 1rem; }
-.gegevens { display: grid; grid-template-columns: 1fr; gap: 0; margin: 0 0 1rem; }
-.gegevens dt { font-family: var(--kopletter); font-size: 1.05rem; letter-spacing: .04em; text-transform: uppercase; color: var(--geel); }
-.gegevens dd { margin: 0 0 .5rem; }
-.gegevens__iban { font-family: var(--kopletter); font-size: clamp(1.4rem, 2.4vw, 2rem); letter-spacing: .05em; line-height: 1.1; white-space: nowrap; user-select: all; }
 
 /* ===== Footer ===== */
 .voet { background: var(--bruin); color: var(--creme); padding: 2rem 0; text-align: center; }
@@ -175,31 +156,24 @@ em { font-style: normal; text-decoration: underline; text-decoration-thickness: 
   .kopband__inhoud { padding: 0 0 .5rem; }
   .kopband h1 { color: var(--bruin); font-size: 26pt; }
   .kopband__intro { color: var(--roodbruin); font-size: 11pt; }
+  .kopband__citaat { font-size: 16pt; }
   .kopband__vlak { background: none; padding: 0; max-width: none; }
   .kopband__citaat q { color: var(--roodbruin); }
   .kopband__citaat .verw { color: var(--bruin); }
   .badge { background: none; border: 1px solid var(--bruin); font-size: 10pt; }
   .a4 { display: block; columns: 2; column-gap: 7mm; padding: 0; }
+  .a4 > div { max-width: none; }
   /* Compacte witruimte: de tekst wordt nog aangevuld en moet op een A4 blijven. */
   .blok + .blok { margin-top: .6rem; }
   .blok h2 { font-size: 14pt; margin-bottom: .25em; }
   p, ul, ol { margin-bottom: .5em; }
-  .meedoen h3 { margin-top: .5rem; }
   .punten li { margin-bottom: .15em; }
   .uitlichting, .citaatblok, .oproep { background: none; border: 1px solid var(--bruin); box-shadow: none; padding: .3rem .6rem; }
   .citaatblok { border-left-width: 4px; border-radius: 0; }
   .oproep p { font-size: 12pt; margin-bottom: 0; }
   .oproep .knop { display: none; }
-  .meedoen { position: static; background: none; color: #000; border: 2px solid var(--bruin); padding: .6rem .75rem; margin-top: .8rem; box-shadow: none; }
-  .meedoen h2, .meedoen h3, .gegevens dt { color: var(--bruin); }
-  .meedoen q { color: var(--roodbruin); }
-  .meedoen .verw { color: var(--bruin); }
-  .meedoen__anbi { display: none; }
-  /* Gegevens onder elkaar, zodat het IBAN op een regel past in de smalle kolom. */
-  .gegevens dd { margin-bottom: .35rem; }
-  .gegevens__iban { font-size: 15pt; }
   /* URL achter links waarvan de tekst niet al het adres is. */
   a[href^="http"]:not(.url)::after { content: ' (' attr(href) ')'; font-size: .85em; }
   h2, h3 { break-after: avoid; }
-  li, .noot, .uitlichting, .citaatblok, .oproep, .meedoen { break-inside: avoid; }
+  li, .noot, .uitlichting, .citaatblok, .oproep { break-inside: avoid; }
 }

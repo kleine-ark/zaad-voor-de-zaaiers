@@ -14,9 +14,9 @@ PDF_HREF = "brochure/zaad-voor-de-zaaier-brochure.pdf"
 
 # Vroege waarschuwing; de echte A4-bewaker is tools/test_print.py.
 WOORDBUDGET = 480
-SECTIE_IDS = ["top", "leren", "wat", "uitgangspunten", "positie", "voordeel", "meedoen"]
+SECTIE_IDS = ["top", "leren", "wat", "uitgangspunten", "positie", "voordeel"]
 # Hoofdlettergevoelig; tikfouten, verkeerde spellingen en dingen die niet op de site horen.
-VERBODEN = ["Zaaiers", "maarten.jpg", "stefan.jpg", "zaaiers richt", "NL.....", "Eein", "betekend", "opleverd", "vind u",
+VERBODEN = ["Zaaiers", "maarten.jpg", "stefan.jpg", "logo-anbi.png", "zaaiers richt", "NL.....", "Eein", "betekend", "opleverd", "vind u",
             "luid:", "hiemee", "bedieninsvarianten", "Matth.55", "1 kor.", "word vergeleken",
             "gebeurd er", "verspreid daarmee", "stichting ondersteund", "werkt zegent", "koffie kar",
             "Philadelphia", "Filadelphia", "omdat dat wij", "<script"]
@@ -26,12 +26,10 @@ KERNINHOUD = ["We hebben het op ons hart gekregen", "2 Kor. 9:10", "Heer van de 
               "moslims", "openbare scholen", "het Woord op straat klinkt", "diaconaal werk en inloophuizen",
               "1 Kor. 15:3–4", "0 euro aan administratieve kosten", "Hebron Missie", "Bijbelschool Filadelfia",
               "Arjan Baan", "Mogen we 5 minuten van uw tijd", "Open hier de brochure",
-              "richt zich op het financieel ondersteunen van", "periodieke gift",
-              "kunnen binnen de wettelijke kaders aftrekbaar zijn", "2 Kor. 9:7"]
+              "richt zich op het financieel ondersteunen van"]
 STICHTINGEN = ("https://www.hebronmissie.nl", "https://www.werkersindewijngaard.nl")
 TOKENS = ["--bruin", "--creme", "--papier", "--geel", "--oranje", "--sage", "--lichtblauw",
           "--lei", "--groen", "--roodbruin", "--tekst"]
-IBAN = "NL83 RABO 0310 5957 62"
 # Beelden boven de vouw worden niet lui geladen: de hero en (via de lus) het kopregel-logo.
 NIET_LUI = {"img/hero-zaaier.jpg"}
 
@@ -83,12 +81,6 @@ def css():
 
 def alle_ids(dom):
     return [a["id"] for _, a in dom.tags if "id" in a]
-
-
-def iban_geldig(iban: str) -> bool:
-    s = iban.replace(" ", "")
-    verplaatst = s[4:] + s[:4]
-    return int("".join(str(int(c, 36)) for c in verplaatst)) % 97 == 1
 
 
 # ---- structuur ----
@@ -172,12 +164,9 @@ def test_geen_verboden_tekst(html):
         assert woord not in html, f"gevonden: {woord!r}"
 
 
-def test_iban_exact_en_geldig(dom):
-    tekst = " ".join(dom.main_tekst)
-    assert IBAN in tekst
-    assert iban_geldig(IBAN)
-    assert "Stichting Werkers in de Wijngaard" in tekst
-    assert "Project Zaad voor de Zaaier" in tekst
+def test_geen_giftgegevens_op_de_pagina(html):
+    """De eigenaren hebben het blok Meedoen (IBAN, fiscale regels) van de pagina gehaald."""
+    assert "NL83" not in html and "IBAN" not in html and 'id="meedoen"' not in html
 
 
 def test_links_naar_beide_stichtingen_en_geen_projecturl(dom):
@@ -215,11 +204,6 @@ def test_tokens_en_fonts_in_css(css):
     for font in ("../fonts/bebas-neue.woff2", "../fonts/open-sans.woff2"):
         assert font in css
         assert (ROOT / "fonts" / font.split("/")[-1]).exists()
-
-
-def test_iban_breekt_niet(css):
-    regel = re.search(r"\.gegevens__iban\s*\{([^}]*)\}", css).group(1)
-    assert "white-space: nowrap" in regel, "IBAN moet op een regel blijven"
 
 
 def test_print_op_a4(css):

@@ -9,7 +9,7 @@ werkt en hoe u meedoet. Het project is ondergebracht in Stichting Werkers in de 
 | Pad | Wat |
 |---|---|
 | `index.html`, `css/style.css` | De pagina. Platte HTML en CSS, geen JavaScript, geen build-stap. Printstijl voor één A4. |
-| `img/` | Zeven beelden uit de brochure (hero, vier logo's, favicon, og-image); bewust geen portretten. |
+| `img/` | Zes beelden uit de brochure (hero, drie logo's, favicon, og-image); bewust geen portretten. |
 | `fonts/` | Bebas Neue en Open Sans als woff2, met OFL-licentiebestanden. |
 | `brochure/zaad-voor-de-zaaier-brochure.pdf` | Verkleinde download-versie van de brochure (4,8 MB). |
 | `tools/` | Generatiescripts en pytest-controles. |
@@ -60,16 +60,16 @@ De tekst van de voorpagina is door de eigenaren aangeleverd (2026-09-19) en lich
 de naam is overal "Zaad voor de Zaaier"; taalcorrecties ("hiermee", "ons werk zegent", "koffiekar",
 "moslims", "in het verspreiden"); de school heet volgens haar eigen site "Bijbelschool Filadelfia";
 de afgebroken toevoeging "voor zover" achter "Verspreiding van het evangelie online" is weggelaten
-tot hij wordt aangevuld. Het paneel "Meedoen" (IBAN, tenaamstelling, fiscale regels met het
-voorbehoud "kunnen aftrekbaar zijn") stond niet in de aangeleverde tekst maar blijft staan: IBAN en
-tenaamstelling zijn door de eigenaren opgegeven en de brochure-PDF heeft op die plek een invulveld.
+tot hij wordt aangevuld. Het paneel "Meedoen" (IBAN, tenaamstelling, fiscale regels) is op verzoek van de eigenaren van de
+pagina gehaald; de pagina bevat geen giftgegevens meer. Let op: de brochure-PDF heeft op de plek
+van het IBAN een invulveld.
 De brochure-PDF is de bestaande brochure, inclusief de bekende onvolkomenheden (invulveld bij het
 IBAN, werknotitie op pagina 14, taalfouten); nu de voorpagina ernaar verwijst, is een nieuwe export
 uit Canva de moeite waard.
 
 Ter controle door de eigenaren: de brochure noemt de periodieke gift "volledig aftrekbaar,
 zonder drempel of maximum"; sinds 2023 kent de inkomstenbelasting wel een plafond voor
-periodieke giften. De pagina neemt de brochuretekst over en verwijst naar de eigen adviseur.
+periodieke giften. Dat staat alleen nog in de brochure-PDF, niet meer op de pagina.
 
 Snelle controle op telefoonbreedte na wijzigingen (in de browserconsole op 375 px):
 `document.documentElement.scrollWidth <= document.documentElement.clientWidth` moet `true` zijn.

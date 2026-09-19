@@ -40,5 +40,5 @@ def test_pagina_past_op_een_a4(tmp_path):
     assert (round(breedte_mm), round(hoogte_mm)) == (210, 297), "papierformaat is geen A4"
     assert len(doc) == 1, f"proefdruk beslaat {len(doc)} pagina's"
     tekst = doc[0].get_text().replace("\n", " ")
-    assert "NL83 RABO 0310 5957 62" in tekst
+    assert "Arjan Baan" in tekst, "het einde van de tekst ontbreekt in de afdruk"
     assert "Stichting Hebron Missie" in tekst, "voettekstregel ontbreekt in de afdruk"
