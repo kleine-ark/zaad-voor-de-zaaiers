@@ -81,11 +81,6 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
 .verw { font-style: normal; color: var(--bruin); font-weight: 600; font-size: .9em; white-space: nowrap; }
 
 /* ===== Componenten ===== */
-.badge {
-  display: inline-block; background: var(--geel); color: var(--bruin);
-  font-family: var(--kopletter); font-size: 1.2rem; letter-spacing: .04em; text-transform: uppercase;
-  padding: .3em .7em .2em; border-radius: 8px;
-}
 .knop {
   display: inline-block; background: var(--geel); color: var(--bruin);
   font-family: var(--kopletter); font-size: 1.3rem; letter-spacing: .04em; text-transform: uppercase;
@@ -190,7 +185,6 @@ mark { background: var(--geel); color: var(--bruin); padding: 0 .2em; border-rad
   .kopband__vlak { background: none; padding: 0; max-width: none; }
   .kopband__citaat q { color: var(--roodbruin); }
   .kopband__citaat .verw { color: var(--bruin); }
-  .badge { background: none; border: 1px solid var(--bruin); font-size: 10pt; }
   .a4 { display: block; columns: 2; column-gap: 7mm; padding: 0; }
   .blok, .oproep { max-width: none; }
   .blok--beeld { display: block; }

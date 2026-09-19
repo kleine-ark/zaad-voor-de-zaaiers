@@ -152,6 +152,11 @@ def test_anoniem_geven_met_markeringen_zonder_inleiding(html):
     assert "Wij benadrukken het belang" not in html
 
 
+def test_geen_doelgroepbadge_bovenin(html):
+    """Op verzoek weggehaald: de regel boven de titel over de doelgroep."""
+    assert "christelijke ondernemers" not in html and "badge" not in html
+
+
 def test_geen_kopregel_bovenin(html):
     """Op verzoek van de eigenaren: geen balk met logo en downloadknop boven het titelblok."""
     assert "<header" not in html and "kopregel" not in html
