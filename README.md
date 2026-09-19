@@ -9,7 +9,7 @@ werkt en hoe u meedoet. Het project is ondergebracht in Stichting Werkers in de 
 | Pad | Wat |
 |---|---|
 | `index.html`, `css/style.css` | De pagina. Platte HTML en CSS, geen JavaScript, geen build-stap. Printstijl voor één A4. |
-| `img/` | Negen beelden uit de brochure (hero, twee portretten, vier logo's, favicon, og-image). |
+| `img/` | Zeven beelden uit de brochure (hero, vier logo's, favicon, og-image); bewust geen portretten. |
 | `fonts/` | Bebas Neue en Open Sans als woff2, met OFL-licentiebestanden. |
 | `brochure/zaad-voor-de-zaaier-brochure.pdf` | Verkleinde download-versie van de brochure (4,8 MB). |
 | `tools/` | Generatiescripts en pytest-controles. |
@@ -40,7 +40,7 @@ python tools/fetch-fonts.py       # lettertypen ophalen (alleen nodig als fonts/
 python -m pytest tools -q         # alle controles
 ```
 
-Instellingen in `tools/build-assets.py`: hero max 1800 px, portretten max 600 px, JPEG kwaliteit 80;
+Instellingen in `tools/build-assets.py`: hero max 1800 px, JPEG kwaliteit 80;
 download-PDF met elk beeld op max 1200 px, JPEG kwaliteit 70 (maskers als grijswaarden-JPEG, zodat
 transparantie behouden blijft). De PDF krijgt bij elke run nieuwe metadata; commit hem alleen als
 de inhoud is veranderd.
@@ -56,12 +56,16 @@ printstijl zet alle vlakken om naar wit met een rand.
 
 ## Redactie
 
-De tekst is een samenvatting van de brochure, met deze afspraken: de naam is overal
-"Zaad voor de Zaaier"; bijbelcitaten zijn woordelijk overgenomen; de fiscale regels volgen de
-brochure, inclusief het voorbehoud "kunnen aftrekbaar zijn". IBAN en tenaamstelling zijn door de
-eigenaren aangeleverd (de brochure bevat op die plek een invulveld). De verwijzing "vgl.
-Rom. 12:4–5" staat bij een parafrase van de brochure, niet bij een citaat. De download-PDF is de
-bestaande brochure.
+De tekst van de voorpagina is door de eigenaren aangeleverd (2026-09-19) en licht geredigeerd:
+de naam is overal "Zaad voor de Zaaier"; taalcorrecties ("hiermee", "ons werk zegent", "koffiekar",
+"moslims", "in het verspreiden"); de school heet volgens haar eigen site "Bijbelschool Filadelfia";
+de afgebroken toevoeging "voor zover" achter "Verspreiding van het evangelie online" is weggelaten
+tot hij wordt aangevuld. Het paneel "Meedoen" (IBAN, tenaamstelling, fiscale regels met het
+voorbehoud "kunnen aftrekbaar zijn") stond niet in de aangeleverde tekst maar blijft staan: IBAN en
+tenaamstelling zijn door de eigenaren opgegeven en de brochure-PDF heeft op die plek een invulveld.
+De brochure-PDF is de bestaande brochure, inclusief de bekende onvolkomenheden (invulveld bij het
+IBAN, werknotitie op pagina 14, taalfouten); nu de voorpagina ernaar verwijst, is een nieuwe export
+uit Canva de moeite waard.
 
 Ter controle door de eigenaren: de brochure noemt de periodieke gift "volledig aftrekbaar,
 zonder drempel of maximum"; sinds 2023 kent de inkomstenbelasting wel een plafond voor

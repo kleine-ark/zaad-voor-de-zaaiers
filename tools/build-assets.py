@@ -19,30 +19,25 @@ ORIGINEEL = ROOT / "Zaad voor de Zaaier -- Werkers in de Wijngaard -- Hebron Mis
 IMG = ROOT / "img"
 BROCHURE = ROOT / "brochure" / "zaad-voor-de-zaaier-brochure.pdf"
 
-CREME = (248, 238, 197)
-PAPIER = (255, 250, 240)
 KWALITEIT = 80
-MAX_HERO, MAX_PORTRET = 1800, 600
+MAX_HERO = 1800
 
-# (pagina 1-based, index in page.images) -> (bestandsnaam, max lange zijde,
-#   achtergrondkleur voor RGBA->JPEG of None)
+# (pagina 1-based, index in page.images) -> (bestandsnaam, max lange zijde of None voor ongewijzigd)
 BEELDEN = {
-    (1, 0): ("hero-zaaier.jpg", MAX_HERO, None),
-    (1, 1): ("maarten.jpg", MAX_PORTRET, CREME),
-    (2, 2): ("logo-werkers-in-de-wijngaard.png", None, None),
-    (2, 3): ("logo-hebron-missie.png", None, None),
-    (8, 1): ("logo-anbi.png", None, None),
-    (9, 0): ("logo-zaad-voor-de-zaaier.png", None, None),
-    (14, 0): ("stefan.jpg", MAX_PORTRET, CREME),
+    (1, 0): ("hero-zaaier.jpg", MAX_HERO),
+    (2, 2): ("logo-werkers-in-de-wijngaard.png", None),
+    (2, 3): ("logo-hebron-missie.png", None),
+    (8, 1): ("logo-anbi.png", None),
+    (9, 0): ("logo-zaad-voor-de-zaaier.png", None),
 }
 
 
 # Verwachte maat van elk bronbeeld in het origineel; wijkt die af, dan is de
 # koppeling (pagina, index) in BEELDEN waarschijnlijk verschoven door een nieuwe export.
 BRONMATEN = {
-    "hero-zaaier.jpg": (1725, 2609), "maarten.jpg": (560, 374),
+    "hero-zaaier.jpg": (1725, 2609),
     "logo-werkers-in-de-wijngaard.png": (292, 53), "logo-hebron-missie.png": (324, 126),
-    "logo-anbi.png": (231, 183), "logo-zaad-voor-de-zaaier.png": (615, 410), "stefan.jpg": (776, 516),
+    "logo-anbi.png": (231, 183), "logo-zaad-voor-de-zaaier.png": (615, 410),
 }
 
 
@@ -51,13 +46,6 @@ def verklein(im: Image.Image, max_zijde: int | None) -> Image.Image:
         return im
     schaal = max_zijde / max(im.size)
     return im.resize((round(im.width * schaal), round(im.height * schaal)), Image.Resampling.LANCZOS)
-
-
-def op_achtergrond(im: Image.Image, kleur: tuple[int, int, int]) -> Image.Image:
-    """Legt een RGBA-beeld op een effen kleur (JPEG kent geen transparantie)."""
-    bg = Image.new("RGB", im.size, kleur)
-    bg.paste(im, mask=im.getchannel("A"))
-    return bg
 
 
 def bewaar(im: Image.Image, pad: Path) -> None:
@@ -70,15 +58,13 @@ def bewaar(im: Image.Image, pad: Path) -> None:
 
 def maak_beelden(origineel: Path) -> None:
     reader = PdfReader(str(origineel))
-    for (pagina, index), (naam, max_zijde, achtergrond) in BEELDEN.items():
+    for (pagina, index), (naam, max_zijde) in BEELDEN.items():
         bron = reader.pages[pagina - 1].images[index]
         im = Image.open(io.BytesIO(bron.data))
         if im.size != BRONMATEN[naam]:
             raise SystemExit(f"{naam}: bronbeeld op pagina {pagina} is {im.size}, verwacht {BRONMATEN[naam]}; "
                              "controleer de koppeling in BEELDEN")
         im = verklein(im, max_zijde)
-        if achtergrond and im.mode == "RGBA":
-            im = op_achtergrond(im, achtergrond)
         pad = IMG / naam
         bewaar(im, pad)
         print(f"{naam:34s} {im.width:5d} x {im.height:<5d} {pad.stat().st_size // 1024:5d} kB")

@@ -12,8 +12,6 @@ BROCHURE = ROOT / "brochure" / "zaad-voor-de-zaaier-brochure.pdf"
 # bestandsnaam -> maximale lange zijde (None = logo, ongewijzigd)
 GRENZEN = {
     "hero-zaaier.jpg": 1800,
-    "maarten.jpg": 600,
-    "stefan.jpg": 600,
     "logo-zaad-voor-de-zaaier.png": None,
     "logo-hebron-missie.png": None,
     "logo-werkers-in-de-wijngaard.png": None,
@@ -36,7 +34,7 @@ def test_beeld_bestaat_en_past_binnen_grens(naam):
 
 
 def test_geen_onverwachte_bestanden_in_img():
-    """De pagina gebruikt negen beelden; alles daarbuiten is ballast in de repo."""
+    """De pagina gebruikt zeven beelden (geen portretten); alles daarbuiten is ballast in de repo."""
     aanwezig = {p.name for p in IMG.iterdir() if p.is_file()}
     assert aanwezig == set(GRENZEN) | AFGELEID, f"onverwacht in img/: {aanwezig ^ (set(GRENZEN) | AFGELEID)}"
 

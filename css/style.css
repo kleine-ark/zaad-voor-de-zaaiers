@@ -29,6 +29,7 @@
   --groen: #5a8a2a;
   --roodbruin: #8b3a1e;
   --tekst: #2b2118;
+  --rood: #c8241a;
   --kopletter: 'Bebas Neue', 'Arial Narrow', Impact, sans-serif;
   --broodletter: 'Open Sans', 'Segoe UI', Arial, sans-serif;
   --radius: 14px;
@@ -113,7 +114,7 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
 .kopband__inhoud { position: relative; width: 100%; padding-block: 2.5rem 1.75rem; }
 .kopband__vlak { max-width: 46rem; background: rgba(59, 35, 20, .78); border-radius: var(--radius); padding: 1rem 1.25rem 1.1rem; }
 .kopband h1 { color: var(--creme); font-size: clamp(2.6rem, 7vw, 4.5rem); margin: .15em 0 .05em; }
-.kopband__sub { font-family: var(--kopletter); font-size: clamp(1.3rem, 3vw, 1.9rem); letter-spacing: .03em; text-transform: uppercase; color: var(--geel); margin: 0 0 .7em; }
+.kopband__intro { font-size: 1.1em; font-weight: 600; color: var(--geel); margin: 0 0 .8em; }
 .kopband__citaat { margin: 0; }
 .kopband__citaat q { color: var(--creme); }
 .kopband__citaat .verw { color: var(--geel); }
@@ -124,19 +125,22 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
 .blok + .blok { margin-top: 1.75rem; }
 .blok h2 { display: inline-block; border-bottom: 3px solid var(--geel); padding-bottom: .05em; }
 .blok > p:last-child { margin-bottom: 0; }
-.portretten { float: right; display: flex; gap: .5rem; margin: 0 0 .5rem 1rem; }
-.portretten figure { margin: 0; text-align: center; font-size: .75rem; }
-.portretten img { width: 84px; border-radius: 8px; margin-inline: auto; }
-@media (max-width: 480px) { .portretten { float: none; margin: 0 0 .75rem; } }
-.stappen { list-style: none; padding: 0; margin: 0 0 .5rem; display: grid; gap: .75rem; }
-.stap { display: flex; gap: .75rem; align-items: flex-start; background: var(--creme); border-radius: var(--radius); padding: .75rem 1rem; box-shadow: var(--schaduw); }
-.stap a { display: block; font-weight: 600; }
-.paden { list-style: none; padding: 0; margin: 0 0 .75rem; display: grid; gap: .5rem; }
-.paden li { background: var(--sage); border-radius: 10px; padding: .6rem .9rem; }
-.paden li:last-child { background: var(--lichtblauw); }
+.punten { padding-left: 1.2em; }
+.punten li { margin-bottom: .35em; }
+.punten li::marker { color: var(--roodbruin); }
+em { font-style: normal; text-decoration: underline; text-decoration-thickness: .08em; text-underline-offset: .1em; }
+.noot { display: flex; gap: .6rem; align-items: flex-start; font-weight: 600; clear: both; }
+.kruis { color: var(--rood); font-size: 1.7em; line-height: 1; }
+.uitlichting { background: var(--geel); color: var(--bruin); border-radius: 10px; padding: .6rem .9rem; font-weight: 700; }
+.citaatblok { margin: 0; background: var(--creme); border-left: 5px solid var(--oranje); border-radius: 0 10px 10px 0; padding: .75rem 1rem; }
+.citaatblok p { margin: 0; }
+.oproep { margin-top: 1.25rem; background: var(--creme); border-radius: var(--radius); padding: 1rem 1.25rem; box-shadow: var(--schaduw); }
+.oproep p { font-family: var(--kopletter); font-size: 1.5rem; line-height: 1.1; letter-spacing: .02em; text-transform: uppercase; color: var(--bruin); margin: 0 0 .6rem; }
 
 /* ===== Meedoen ===== */
 .meedoen { background: var(--bruin); color: var(--creme); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--schaduw); }
+/* Naast de lange tekstkolom blijft het paneel in beeld. */
+@media (min-width: 900px) { .meedoen { position: sticky; top: 1rem; } }
 .meedoen h2, .meedoen h3 { color: var(--geel); }
 .meedoen q { color: var(--geel); }
 .meedoen .verw { color: var(--creme); }
@@ -155,42 +159,47 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
 .voet__logos a { display: flex; align-items: center; justify-content: center; height: 84px; padding: .6rem 1rem; background: var(--creme); border-radius: 10px; }
 .voet__logos img { max-height: 64px; width: auto; }
 .voet .knop { color: var(--bruin); margin-top: .5rem; }
+.alleen-print { display: none; }
 
 /* ===== Print: de hele pagina op een A4 ===== */
 @media print {
   @page { size: A4; margin: 11mm; }
-  html { font-size: 10pt; }
+  html { font-size: 9.5pt; }
   body { background: #fff; color: #000; line-height: 1.35; }
-  /* Kopregel, foto en voettekst blijven weg: op papier is de inhoud daarvan al in de tekst aanwezig. */
-  .skip-link, .kopregel, .kopband__img, .kopband::before, .voet__logos, .voet .knop { display: none; }
+  /* Kopregel, foto en voettekst blijven weg. Een kolommenblok eist in print de rest van de pagina op,
+     dus de voettekstregel staat als .alleen-print aan het eind van de kolommen. */
+  .skip-link, .kopregel, .kopband__img, .kopband::before, .voet { display: none; }
+  .alleen-print { display: block; font-size: 8.5pt; border-top: 1px solid var(--bruin); padding-top: .3rem; margin: .6rem 0 0; break-inside: avoid; }
   .wrap { max-width: none; padding-inline: 0; }
   .kopband { min-height: 0; display: block; color: var(--bruin); overflow: visible; }
   .kopband__inhoud { padding: 0 0 .5rem; }
   .kopband h1 { color: var(--bruin); font-size: 26pt; }
-  .kopband__sub { color: var(--roodbruin); font-size: 13pt; }
+  .kopband__intro { color: var(--roodbruin); font-size: 11pt; }
   .kopband__vlak { background: none; padding: 0; max-width: none; }
   .kopband__citaat q { color: var(--roodbruin); }
   .kopband__citaat .verw { color: var(--bruin); }
   .badge { background: none; border: 1px solid var(--bruin); font-size: 10pt; }
-  .a4 { grid-template-columns: 3fr 2fr; gap: 6mm; padding: 0; }
-  .blok + .blok { margin-top: 1rem; }
-  .portretten img { width: 60px; }
-  .stap, .paden li { background: none; border: 1px solid var(--bruin); padding: .35rem .6rem; box-shadow: none; }
-  .stappen, .paden { gap: .4rem; }
-  .cirkel { background: none; color: var(--bruin); border: 2px solid var(--bruin); }
-  .meedoen { background: none; color: #000; border: 2px solid var(--bruin); padding: .75rem; box-shadow: none; }
+  .a4 { display: block; columns: 2; column-gap: 7mm; padding: 0; }
+  /* Compacte witruimte: de tekst wordt nog aangevuld en moet op een A4 blijven. */
+  .blok + .blok { margin-top: .6rem; }
+  .blok h2 { font-size: 14pt; margin-bottom: .25em; }
+  p, ul, ol { margin-bottom: .5em; }
+  .meedoen h3 { margin-top: .5rem; }
+  .punten li { margin-bottom: .15em; }
+  .uitlichting, .citaatblok, .oproep { background: none; border: 1px solid var(--bruin); box-shadow: none; padding: .3rem .6rem; }
+  .citaatblok { border-left-width: 4px; border-radius: 0; }
+  .oproep p { font-size: 12pt; margin-bottom: 0; }
+  .oproep .knop { display: none; }
+  .meedoen { position: static; background: none; color: #000; border: 2px solid var(--bruin); padding: .6rem .75rem; margin-top: .8rem; box-shadow: none; }
   .meedoen h2, .meedoen h3, .gegevens dt { color: var(--bruin); }
   .meedoen q { color: var(--roodbruin); }
   .meedoen .verw { color: var(--bruin); }
-  .meedoen__anbi { background: none; padding: 0; width: 80px; }
+  .meedoen__anbi { display: none; }
   /* Gegevens onder elkaar, zodat het IBAN op een regel past in de smalle kolom. */
   .gegevens dd { margin-bottom: .35rem; }
   .gegevens__iban { font-size: 15pt; }
-  .voet { background: none; color: #000; padding: .3rem 0 0; margin-top: .5rem; border-top: 1px solid var(--bruin); font-size: 8.5pt; }
-  .voet p { margin: 0; }
-  .voet a { color: var(--roodbruin); }
-  /* URL achter links waarvan de tekst niet al het adres is; in de voettekst niet, die adressen staan al bij de stappen. */
+  /* URL achter links waarvan de tekst niet al het adres is. */
   a[href^="http"]:not(.url)::after { content: ' (' attr(href) ')'; font-size: .85em; }
-  .voet a[href^="http"]::after { content: none; }
-  h2, h3, .stap, .paden li, .meedoen { break-inside: avoid; }
+  h2, h3 { break-after: avoid; }
+  li, .noot, .uitlichting, .citaatblok, .oproep, .meedoen { break-inside: avoid; }
 }

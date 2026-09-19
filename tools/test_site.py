@@ -10,24 +10,30 @@ ROOT = Path(__file__).resolve().parent.parent
 INDEX = ROOT / "index.html"
 CSS = ROOT / "css" / "style.css"
 BROCHURE = ROOT / "brochure" / "zaad-voor-de-zaaier-brochure.pdf"
+PDF_HREF = "brochure/zaad-voor-de-zaaier-brochure.pdf"
 
 # Vroege waarschuwing; de echte A4-bewaker is tools/test_print.py.
-WOORDBUDGET = 420
-SECTIE_IDS = ["top", "wat", "hoe", "meedoen"]
-# Hoofdlettergevoelig; tikfouten uit de brochure en dingen die niet op de site horen.
-VERBODEN = ["Zaaiers", "NL.....", "Eein", "betekend", "opleverd", "vind u",
+WOORDBUDGET = 480
+SECTIE_IDS = ["top", "leren", "wat", "uitgangspunten", "positie", "voordeel", "meedoen"]
+# Hoofdlettergevoelig; tikfouten, verkeerde spellingen en dingen die niet op de site horen.
+VERBODEN = ["Zaaiers", "maarten.jpg", "stefan.jpg", "zaaiers richt", "NL.....", "Eein", "betekend", "opleverd", "vind u",
             "luid:", "hiemee", "bedieninsvarianten", "Matth.55", "1 kor.", "word vergeleken",
-            "gebeurd er", "verspreid daarmee", "stichting ondersteund", "<script"]
+            "gebeurd er", "verspreid daarmee", "stichting ondersteund", "werkt zegent", "koffie kar",
+            "Philadelphia", "Filadelphia", "omdat dat wij", "<script"]
 # Moet in de leesbare tekst van main + voettekst staan (niet alleen in alt-teksten of attributen).
-KERNINHOUD = ["Hebron Missie", "Werkers in de Wijngaard", "Parttime", "Fulltime", "ANBI",
-              "periodieke gift", "2 Kor. 9:10", "2 Kor. 9:7", "Rom. 12:4–5", "Maarten Vroegindeweij",
-              "Stefan de Heer", "Philadelphia", "Gospel Image", "kunnen binnen de wettelijke kaders aftrekbaar zijn"]
+KERNINHOUD = ["We hebben het op ons hart gekregen", "2 Kor. 9:10", "Heer van de oogst", "welvaartsevangelie",
+              "Werkers in de Wijngaard", "ANBI", "Straatevangelisatie", "Kraam met boeken", "koffiekar",
+              "moslims", "openbare scholen", "het Woord op straat klinkt", "diaconaal werk en inloophuizen",
+              "1 Kor. 15:3–4", "0 euro aan administratieve kosten", "Hebron Missie", "Bijbelschool Filadelfia",
+              "Arjan Baan", "Mogen we 5 minuten van uw tijd", "Open hier de brochure",
+              "richt zich op het financieel ondersteunen van", "periodieke gift",
+              "kunnen binnen de wettelijke kaders aftrekbaar zijn", "2 Kor. 9:7"]
 STICHTINGEN = ("https://www.hebronmissie.nl", "https://www.werkersindewijngaard.nl")
 TOKENS = ["--bruin", "--creme", "--papier", "--geel", "--oranje", "--sage", "--lichtblauw",
           "--lei", "--groen", "--roodbruin", "--tekst"]
 IBAN = "NL83 RABO 0310 5957 62"
-# Beelden boven de vouw worden niet lui geladen: hero, portretten en (via de lus) het kopregel-logo.
-NIET_LUI = {"img/hero-zaaier.jpg", "img/maarten.jpg", "img/stefan.jpg"}
+# Beelden boven de vouw worden niet lui geladen: de hero en (via de lus) het kopregel-logo.
+NIET_LUI = {"img/hero-zaaier.jpg"}
 
 
 class Dom(HTMLParser):
@@ -116,9 +122,15 @@ def test_secties_in_volgorde_en_footer_erna(dom):
     assert "footer" in [t for t, _ in dom.tags[laatste:]], "footer moet na de laatste sectie komen"
 
 
-def test_drie_stappen(dom):
-    stappen = [a for t, a in dom.tags if "stap" in a.get("class", "").split()]
-    assert len(stappen) == 3, f"{len(stappen)} stappen gevonden, verwacht 3"
+def test_een_h2_per_sectie(dom):
+    """Elke sectie na de kopband heeft precies één h2; de kopband heeft de h1."""
+    starts = [i for i, (t, a) in enumerate(dom.tags) if a.get("id") in SECTIE_IDS]
+    footer = next(i for i, (t, _) in enumerate(dom.tags) if t == "footer")
+    grenzen = starts + [footer]
+    for begin, eind in zip(grenzen, grenzen[1:]):
+        sid = dom.tags[begin][1]["id"]
+        h2 = sum(1 for t, _ in dom.tags[begin:eind] if t == "h2")
+        assert h2 == (0 if sid == "top" else 1), f"sectie #{sid} heeft {h2} h2-koppen"
 
 
 # ---- beelden ----
@@ -150,7 +162,7 @@ def test_woordbudget(dom):
 
 
 def test_kerninhoud_in_leesbare_tekst(dom):
-    tekst = " ".join(dom.main_tekst + dom.voet_tekst)
+    tekst = re.sub(r"\s+", " ", " ".join(dom.main_tekst + dom.voet_tekst))
     for term in KERNINHOUD:
         assert term in tekst, f"ontbreekt in de leesbare tekst: {term!r}"
 
@@ -175,8 +187,12 @@ def test_links_naar_beide_stichtingen_en_geen_projecturl(dom):
     assert not any("werkersindewijngaard.nl/zaadvoordezaaier" in h for h in hrefs)
 
 
-def test_downloadknop(dom):
-    assert any(a.get("href") == "brochure/zaad-voor-de-zaaier-brochure.pdf" for t, a in dom.tags if t == "a")
+def test_brochure_downloaden_en_openen_in_nieuw_tabblad(dom):
+    links = [a for t, a in dom.tags if t == "a" and a.get("href") == PDF_HREF]
+    assert any("download" in a for a in links), "downloadknop ontbreekt"
+    openers = [a for a in links if a.get("target") == "_blank"]
+    assert openers, "de oproep moet de brochure in een nieuw tabblad openen"
+    assert all("noopener" in a.get("rel", "") for a in openers), "target=_blank vraagt om rel=noopener"
 
 
 def test_alleen_relatieve_bronnen_en_toegestane_hosts(dom):
@@ -209,8 +225,10 @@ def test_iban_breekt_niet(css):
 def test_print_op_a4(css):
     print_blok = css.split("@media print")[1]
     assert re.search(r"@page\s*\{[^}]*size:\s*A4", print_blok), "@page met size: A4 ontbreekt in het print-blok"
-    assert ".voet__logos" in print_blok and ".voet { display: none" not in print_blok, \
-        "in print blijft de voettekstregel staan; alleen logo's en knop verdwijnen"
+    assert re.search(r"\.alleen-print\s*\{[^}]*display:\s*block", print_blok), \
+        "de voettekstregel moet in print meelopen als .alleen-print"
+    assert re.search(r"\.alleen-print\s*\{\s*display:\s*none", css.split("@media print")[0]), \
+        ".alleen-print hoort op het scherm verborgen te zijn"
 
 
 def test_gewicht():
