@@ -28,7 +28,7 @@ VERBODEN = ["Zaaiers", "anoninem", "zelfstandige evangelie ", "niet zelf teveel"
             "Philadelphia", "Filadelphia", "omdat dat wij", "<script"]
 # Moet in de leesbare tekst van main + voettekst staan (niet alleen in alt-teksten of attributen).
 KERNINHOUD = ["We hebben het op ons hart gekregen", "2 Kor. 9:10", "Heer van de oogst", "welvaartsevangelie",
-              "Werkers in de Wijngaard", "ANBI", "Straatevangelisatie", "Kraam met boeken", "koffiekar",
+              "Werkers in de Wijngaard", "ANBI", "faciliteert sinds 2010 mensen", "Straatevangelisatie", "Kraam met boeken", "koffiekar",
               "moslims", "openbare scholen", "het Woord op straat klinkt", "diaconaal werk en inloophuizen",
               "1 Kor. 15:3–4", "0 euro aan administratieve kosten", "Hebron Missie", "Bijbelschool Filadelfia",
               "Arjan Baan", "Mogen we 5 minuten van uw tijd", "Open hier de brochure",
