@@ -12,11 +12,12 @@ CSS = ROOT / "css" / "style.css"
 BROCHURE = ROOT / "brochure" / "zaad-voor-de-zaaier-brochure.pdf"
 PDF_HREF = "brochure/zaad-voor-de-zaaier-brochure.pdf"
 
-# Vroege waarschuwing; de echte A4-bewaker is tools/test_print.py.
-WOORDBUDGET = 480
-SECTIE_IDS = ["top", "leren", "wat", "uitgangspunten", "positie", "projecten", "uitgaven", "voordeel"]
+# Vroege waarschuwing; de echte A4-bewaker is tools/test_print.py. Bij 515 woorden eindigde de
+# afdruk op 263 van 287 mm, dus rond 560 woorden is de pagina vol.
+WOORDBUDGET = 560
+SECTIE_IDS = ["top", "leren", "wat", "uitgangspunten", "positie", "projecten", "uitgaven", "voordeel", "anoniem"]
 # Projectenlijst 2027 zoals aangeleverd door de eigenaren (bedragen in euro's).
-PROJECTEN_2027 = [("Evangelisten Randstad", 60000), ("Evangelisatie Sjofar", 50000),
+PROJECTEN_2027 = [("Evangelisten Randstad", 60000), ("Evangelisatie landelijk", 50000),
                   ("Nieuwe evangelisten Hebron", 180000), ("Online discipelschapsvideo’s", 12000),
                   ("Moslimevangelisatie", 250000), ("Jongerenevangelisatie", 54000)]
 # Hoofdlettergevoelig; tikfouten, verkeerde spellingen en dingen die niet op de site horen.
@@ -32,7 +33,9 @@ KERNINHOUD = ["We hebben het op ons hart gekregen", "2 Kor. 9:10", "Heer van de 
               "1 Kor. 15:3–4", "0 euro aan administratieve kosten", "Hebron Missie", "Bijbelschool Filadelfia",
               "Arjan Baan", "Mogen we 5 minuten van uw tijd", "Open hier de brochure",
               "richt zich op het financieel ondersteunen van", "2027 projecten",
-              "Waar wordt het geld aan uitgegeven?", "Inkomen werkers", "Drukwerk Bijbels en traktaten"]
+              "Waar wordt het geld aan uitgegeven?", "Inkomen werkers", "Drukwerk Bijbels en traktaten",
+              "Anoniem geven", "laat dan uw linkerhand niet weten wat uw rechterhand doet",
+              "Die in het verborgene ziet", "Mattheüs 6:2–4"]
 STICHTINGEN = ("https://www.hebronmissie.nl", "https://www.werkersindewijngaard.nl")
 TOKENS = ["--bruin", "--creme", "--papier", "--geel", "--oranje", "--sage", "--lichtblauw",
           "--lei", "--groen", "--roodbruin", "--tekst"]
@@ -102,6 +105,15 @@ def test_head_metadata(html):
     assert 'property="og:image"' in html and "img/og-image.jpg" in html
     assert 'rel="icon"' in html and "img/favicon.png" in html
     assert 'href="css/style.css"' in html
+
+
+def test_site_is_niet_vindbaar(dom):
+    """Op verzoek van de eigenaren: geen indexering door zoekmachines, ook niet van de brochure."""
+    robots = [a.get("content", "") for t, a in dom.tags if t == "meta" and a.get("name") == "robots"]
+    assert robots and "noindex" in robots[0] and "nofollow" in robots[0], "meta robots met noindex, nofollow ontbreekt"
+    regels = (ROOT / "robots.txt").read_text(encoding="utf-8").splitlines()
+    assert "Disallow: /brochure/" in regels, "robots.txt moet de brochure-PDF afschermen"
+    assert "Disallow: /" not in regels, "de pagina moet leesbaar blijven, anders ziet een zoekmachine de noindex niet"
 
 
 def test_skip_link_en_main(html):
@@ -180,9 +192,19 @@ def test_geen_verboden_tekst(html):
         assert woord not in html, f"gevonden: {woord!r}"
 
 
-def test_geen_giftgegevens_op_de_pagina(html):
-    """De eigenaren hebben het blok Meedoen (IBAN, fiscale regels) van de pagina gehaald."""
-    assert "NL83" not in html and "IBAN" not in html and 'id="meedoen"' not in html
+def iban_geldig(iban: str) -> bool:
+    s = iban.replace(" ", "")
+    verplaatst = s[4:] + s[:4]
+    return int("".join(str(int(c, 36)) for c in verplaatst)) % 97 == 1
+
+
+def test_rekeningnummer_onderaan_en_geen_blok_meedoen(html, dom):
+    """Onderaan staan de stichting en het rekeningnummer; het blok Meedoen (fiscale regels) blijft weg."""
+    voet = re.sub(r"\s+", " ", " ".join(dom.voet_tekst))
+    assert "Stichting Werkers in de Wijngaard NL83 RABO 0310 5957 62" in voet
+    assert iban_geldig("NL83 RABO 0310 5957 62")
+    assert "NL83 RABO 0310 5957 62" not in " ".join(dom.main_tekst).split("Stichting Hebron Missie.")[0], "het nummer hoort alleen onderaan"
+    assert 'id="meedoen"' not in html and "periodieke gift" not in html
 
 
 def test_links_naar_beide_stichtingen_en_geen_projecturl(dom):

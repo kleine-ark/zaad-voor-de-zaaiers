@@ -1,0 +1,4 @@
+# De site hoort niet vindbaar te zijn. De pagina zelf draagt "noindex, nofollow" en moet daarvoor
+# wel gelezen kunnen worden; de brochure-PDF kan zo'n instructie niet dragen en wordt hier afgeschermd.
+User-agent: *
+Disallow: /brochure/

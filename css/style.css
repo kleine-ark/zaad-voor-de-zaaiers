@@ -136,8 +136,14 @@ em { font-style: normal; text-decoration: underline; text-decoration-thickness: 
 .begroting th { font-weight: 600; }
 .begroting td { text-align: right; font-weight: 700; white-space: nowrap; color: var(--bruin); }
 .begroting tbody tr:nth-child(odd) { background: var(--creme); }
+/* Nadrukblok: donker vlak, zoals de tekstvlakken op de posterpagina's van de brochure. */
+.blok--nadruk { background: var(--bruin); color: var(--creme); border-radius: var(--radius); padding: 1.25rem 1.5rem 1.4rem; box-shadow: var(--schaduw); }
+.blok--nadruk h2 { color: var(--geel); }
+.blok--nadruk .citaatblok { background: none; border-left-color: var(--geel); border-radius: 0; padding: .1rem 0 .1rem 1rem; font-size: 1.08em; }
+.blok--nadruk q { color: var(--creme); }
+.blok--nadruk .verw { color: var(--geel); }
 .begroting tfoot th, .begroting tfoot td { border-top: 2px solid var(--bruin); border-bottom: 0; font-weight: 700; font-size: 1.05em; }
-.oproep { margin-top: 1.25rem; background: var(--creme); border-radius: var(--radius); padding: 1rem 1.25rem; box-shadow: var(--schaduw); }
+.oproep { margin-top: 1.75rem; background: var(--creme); border-radius: var(--radius); padding: 1rem 1.25rem; box-shadow: var(--schaduw); }
 .oproep p { font-family: var(--kopletter); font-size: 1.5rem; line-height: 1.1; letter-spacing: .02em; text-transform: uppercase; color: var(--bruin); margin: 0 0 .6rem; }
 
 /* ===== Footer ===== */
@@ -147,12 +153,15 @@ em { font-style: normal; text-decoration: underline; text-decoration-thickness: 
 .voet__logos a { display: flex; align-items: center; justify-content: center; height: 84px; padding: .6rem 1rem; background: var(--creme); border-radius: 10px; }
 .voet__logos img { max-height: 64px; width: auto; }
 .voet .knop { color: var(--bruin); margin-top: .5rem; }
+/* Tenaamstelling met het rekeningnummer groot eronder; in een keer te selecteren. */
+.voet__rekening { font-size: 1.1rem; font-weight: 600; margin-bottom: .9rem; }
+.voet__iban { display: block; font-family: var(--kopletter); font-weight: 400; font-size: clamp(1.5rem, 4vw, 2.2rem); letter-spacing: .05em; line-height: 1.15; color: var(--geel); white-space: nowrap; user-select: all; }
 .alleen-print { display: none; }
 
 /* ===== Print: de hele pagina op een A4 ===== */
 @media print {
-  @page { size: A4; margin: 11mm; }
-  html { font-size: 9.5pt; }
+  @page { size: A4; margin: 10mm; }
+  html { font-size: 9pt; }
   body { background: #fff; color: #000; line-height: 1.35; }
   /* Kopregel, foto en voettekst blijven weg. Een kolommenblok eist in print de rest van de pagina op,
      dus de voettekstregel staat als .alleen-print aan het eind van de kolommen. */
@@ -161,9 +170,9 @@ em { font-style: normal; text-decoration: underline; text-decoration-thickness: 
   .wrap { max-width: none; padding-inline: 0; }
   .kopband { min-height: 0; display: block; color: var(--bruin); overflow: visible; }
   .kopband__inhoud { padding: 0 0 .5rem; }
-  .kopband h1 { color: var(--bruin); font-size: 26pt; }
+  .kopband h1 { color: var(--bruin); font-size: 22pt; }
   .kopband__intro { color: var(--roodbruin); font-size: 11pt; }
-  .kopband__citaat { font-size: 16pt; }
+  .kopband__citaat { font-size: 14pt; }
   .kopband__vlak { background: none; padding: 0; max-width: none; }
   .kopband__citaat q { color: var(--roodbruin); }
   .kopband__citaat .verw { color: var(--bruin); }
@@ -172,7 +181,8 @@ em { font-style: normal; text-decoration: underline; text-decoration-thickness: 
   .a4 > div { max-width: none; }
   /* Compacte witruimte: de tekst wordt nog aangevuld en moet op een A4 blijven. */
   .blok + .blok { margin-top: .6rem; }
-  .blok h2 { font-size: 14pt; margin-bottom: .25em; }
+  /* Blokniveau, anders werkt break-after: avoid niet en raakt een kop los van zijn tabel of lijst. */
+  .blok h2 { display: block; width: fit-content; font-size: 14pt; margin-bottom: .25em; }
   p, ul, ol { margin-bottom: .5em; }
   .punten li { margin-bottom: .15em; }
   .uitlichting, .citaatblok, .oproep { background: none; border: 1px solid var(--bruin); box-shadow: none; padding: .3rem .6rem; }
@@ -180,6 +190,11 @@ em { font-style: normal; text-decoration: underline; text-decoration-thickness: 
   .oproep p { font-size: 12pt; margin-bottom: 0; }
   .oproep .knop { display: none; }
   .begroting { break-inside: avoid; }
+  .blok--nadruk { background: none; color: #000; border: 2px solid var(--bruin); padding: .4rem .6rem; box-shadow: none; break-inside: avoid; }
+  .blok--nadruk h2 { color: var(--bruin); }
+  .blok--nadruk .citaatblok { border: 0; border-left: 3px solid var(--bruin); padding: 0 0 0 .5rem; font-size: 1em; }
+  .blok--nadruk q { color: var(--roodbruin); }
+  .blok--nadruk .verw { color: var(--bruin); }
   .begroting th, .begroting td { padding: .12rem .4rem; }
   .begroting tbody tr:nth-child(odd) { background: none; }
   /* URL achter links waarvan de tekst niet al het adres is. */

@@ -25,6 +25,11 @@ en, dankzij relatieve paden, ook als submap op een bestaande site, bijvoorbeeld
 `werkersindewijngaard.nl/zaadvoordezaaier/`. Kopieer daarvoor `index.html`, `css/`, `img/`, `fonts/`
 en `brochure/`.
 
+De site is bewust **niet vindbaar**: `index.html` draagt `noindex, nofollow, noarchive` en `robots.txt`
+schermt de brochure-PDF af (een PDF kan zelf geen noindex dragen). Zet `robots.txt` in de root van het
+domein; staat de site in een submap, neem dan de regel `Disallow: /<submap>/brochure/` over in de
+`robots.txt` van dat domein. Dit houdt zoekmachines buiten, niet mensen die de link hebben.
+
 Na publicatie: vul in `index.html` bij `og:image` de volledige URL van `img/og-image.jpg` in, zodat
 sociale media het voorbeeld tonen.
 
@@ -63,7 +68,7 @@ de afgebroken toevoeging "voor zover" achter "Verspreiding van het evangelie onl
 tot hij wordt aangevuld. In de projectenlijst 2027 zijn de bedragen overgenomen zoals aangeleverd;
 alleen de spelling is aangepast ("Randstad", "discipelschapsvideo’s", "Moslimevangelisatie",
 "Jongerenevangelisatie"). De totaalregel (€ 606.000) is de som van de zes bedragen; een test bewaakt dat hij klopt als een bedrag wijzigt. Het paneel "Meedoen" (IBAN, tenaamstelling, fiscale regels) is op verzoek van de eigenaren van de
-pagina gehaald; de pagina bevat geen giftgegevens meer. Let op: de brochure-PDF heeft op de plek
+pagina gehaald; onderaan de pagina staan alleen nog "Stichting Werkers in de Wijngaard" en het rekeningnummer. Let op: de brochure-PDF heeft op de plek
 van het IBAN een invulveld.
 De brochure-PDF is de bestaande brochure, inclusief de bekende onvolkomenheden (invulveld bij het
 IBAN, werknotitie op pagina 14, taalfouten); nu de voorpagina ernaar verwijst, is een nieuwe export

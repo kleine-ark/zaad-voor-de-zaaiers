@@ -41,4 +41,5 @@ def test_pagina_past_op_een_a4(tmp_path):
     assert len(doc) == 1, f"proefdruk beslaat {len(doc)} pagina's"
     tekst = doc[0].get_text().replace("\n", " ")
     assert "Arjan Baan" in tekst, "het einde van de tekst ontbreekt in de afdruk"
+    assert "NL83 RABO 0310 5957 62" in tekst, "het rekeningnummer ontbreekt in de afdruk"
     assert "Stichting Hebron Missie" in tekst, "voettekstregel ontbreekt in de afdruk"
