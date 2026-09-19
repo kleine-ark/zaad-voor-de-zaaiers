@@ -110,7 +110,16 @@ q { quotes: '“' '”'; color: var(--roodbruin); }
 
 /* ===== Tekstkolom, links uitgelijnd met het titelblok ===== */
 .a4 { padding-block: 2rem 2.5rem; }
-.a4 > div { max-width: 46rem; }
+.blok, .oproep { max-width: 46rem; }
+/* Blok met een brochurebeeld: op smalle schermen als band onder de tekst, vanaf 1000 px rechts ernaast. */
+.blok--beeld { display: grid; gap: 1rem; }
+.blok__beeld { margin: 0; }
+.blok__beeld img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--radius); box-shadow: var(--schaduw); }
+@media (min-width: 1000px) {
+  .blok--beeld { max-width: none; grid-template-columns: minmax(0, 46rem) minmax(0, 1fr); column-gap: 2.5rem; align-items: start; }
+  .blok__beeld { position: sticky; top: 1rem; }
+  .blok__beeld img { aspect-ratio: 3 / 4; }
+}
 .blok + .blok { margin-top: 1.75rem; }
 .blok h2 { display: inline-block; border-bottom: 3px solid var(--geel); padding-bottom: .05em; }
 .blok > p:last-child { margin-bottom: 0; }
@@ -142,6 +151,8 @@ em { font-style: normal; text-decoration: underline; text-decoration-thickness: 
 .blok--nadruk .citaatblok { background: none; border-left-color: var(--geel); border-radius: 0; padding: .1rem 0 .1rem 1rem; font-size: 1.08em; }
 .blok--nadruk q { color: var(--creme); }
 .blok--nadruk .verw { color: var(--geel); }
+/* Markering als met een gele stift, ook in de afdruk. */
+mark { background: var(--geel); color: var(--bruin); padding: 0 .2em; border-radius: 3px; -webkit-box-decoration-break: clone; box-decoration-break: clone; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 .begroting tfoot th, .begroting tfoot td { border-top: 2px solid var(--bruin); border-bottom: 0; font-weight: 700; font-size: 1.05em; }
 .oproep { margin-top: 1.75rem; background: var(--creme); border-radius: var(--radius); padding: 1rem 1.25rem; box-shadow: var(--schaduw); }
 .oproep p { font-family: var(--kopletter); font-size: 1.5rem; line-height: 1.1; letter-spacing: .02em; text-transform: uppercase; color: var(--bruin); margin: 0 0 .6rem; }
@@ -154,9 +165,8 @@ em { font-style: normal; text-decoration: underline; text-decoration-thickness: 
 .voet__logos img { max-height: 64px; width: auto; }
 /* Het eigen logo groot op een eigen regel, de twee stichtingen eronder. */
 .voet__logos .voet__logo--groot { flex-basis: 100%; display: flex; justify-content: center; }
-.voet__logo--groot a { height: 168px; padding: .9rem 1.5rem; }
+.voet__logo--groot a { height: auto; padding: .9rem 1.5rem; }
 .voet__logo--groot img { max-height: 140px; }
-.voet .knop { color: var(--bruin); margin-top: .5rem; }
 /* Tenaamstelling met het rekeningnummer groot eronder; in een keer te selecteren. */
 .voet__rekening { font-size: 1.1rem; font-weight: 600; margin-bottom: .9rem; }
 .voet__iban { display: block; font-family: var(--kopletter); font-weight: 400; font-size: clamp(1.5rem, 4vw, 2.2rem); letter-spacing: .05em; line-height: 1.15; color: var(--geel); white-space: nowrap; user-select: all; }
@@ -182,7 +192,9 @@ em { font-style: normal; text-decoration: underline; text-decoration-thickness: 
   .kopband__citaat .verw { color: var(--bruin); }
   .badge { background: none; border: 1px solid var(--bruin); font-size: 10pt; }
   .a4 { display: block; columns: 2; column-gap: 7mm; padding: 0; }
-  .a4 > div { max-width: none; }
+  .blok, .oproep { max-width: none; }
+  .blok--beeld { display: block; }
+  .blok__beeld { display: none; }
   /* Compacte witruimte: de tekst wordt nog aangevuld en moet op een A4 blijven. */
   .blok + .blok { margin-top: .6rem; }
   /* Blokniveau, anders werkt break-after: avoid niet en raakt een kop los van zijn tabel of lijst. */

@@ -15,13 +15,13 @@ PDF_HREF = "brochure/zaad-voor-de-zaaier-brochure.pdf"
 # Vroege waarschuwing; de echte A4-bewaker is tools/test_print.py. Bij 661 woorden eindigde de
 # afdruk (8,5 pt) op 278 van 288 mm, dus rond 700 woorden is de pagina vol.
 WOORDBUDGET = 700
-SECTIE_IDS = ["top", "leren", "waarom", "wat", "uitgangspunten", "positie", "projecten", "uitgaven", "voordeel", "anoniem"]
+SECTIE_IDS = ["top", "leren", "waarom", "wat", "uitgangspunten", "positie", "anoniem", "projecten", "uitgaven", "voordeel"]
 # Projectenlijst 2027 zoals aangeleverd door de eigenaren (bedragen in euro's).
-PROJECTEN_2027 = [("Evangelisten Randstad", 60000), ("Evangelisatie landelijk", 50000),
+PROJECTEN_2027 = [("Evangelisten Randstad", 60000), ("Evangelisatie landelijk", 48000),
                   ("Nieuwe evangelisten Hebron", 180000), ("Online discipelschapsvideo’s", 12000),
-                  ("Moslimevangelisatie", 250000), ("Jongerenevangelisatie", 54000)]
+                  ("Moslimevangelisatie", 245000), ("Jongerenevangelisatie", 54000)]
 # Hoofdlettergevoelig; tikfouten, verkeerde spellingen en dingen die niet op de site horen.
-VERBODEN = ["Zaaiers", "daar nu ook echt door verkondigd", "anoninem", "zelfstandige evangelie ", "niet zelf teveel", "sommige sommige", "het nu van", "waarde-oordeel", "maarten.jpg", "stefan.jpg", "logo-anbi.png", "discipelschapsvideos",
+VERBODEN = ["Zaaiers", "logo-werkers-in-de-wijngaard.png", "daar nu ook echt door verkondigd", "anoninem", "zelfstandige evangelie ", "niet zelf teveel", "sommige sommige", "het nu van", "waarde-oordeel", "maarten.jpg", "stefan.jpg", "logo-anbi.png", "discipelschapsvideos",
             "Moslim evangelisatie", "Jongeren evangelisatie", "zaaiers richt", "NL.....", "Eein", "betekend", "opleverd", "vind u",
             "luid:", "hiemee", "bedieninsvarianten", "Matth.55", "1 kor.", "word vergeleken",
             "gebeurd er", "verspreid daarmee", "stichting ondersteund", "werkt zegent", "koffie kar",
@@ -30,7 +30,7 @@ VERBODEN = ["Zaaiers", "daar nu ook echt door verkondigd", "anoninem", "zelfstan
 KERNINHOUD = ["We hebben het op ons hart gekregen", "2 Kor. 9:10", "Heer van de oogst", "welvaartsevangelie",
               "Werkers in de Wijngaard", "ANBI", "faciliteert sinds 2010 mensen", "Straatevangelisatie", "Kraam met boeken", "koffiekar",
               "moslims", "openbare scholen", "het Woord op straat klinkt", "diaconaal werk en inloophuizen",
-              "1 Kor. 15:3–4", "0 euro aan administratieve kosten", "Hebron Missie", "Bijbelschool Filadelfia",
+              "1 Kor. 15:3–4", "0 euro aan administratieve kosten", "Anonimiteit;", "Hebron Missie", "Bijbelschool Filadelfia",
               "Arjan Baan", "Mogen we 5 minuten van uw tijd", "Open hier de brochure",
               "richt zich op het financieel ondersteunen van", "2027 projecten",
               "Waar wordt het geld aan uitgegeven?", "Inkomen werkers", "Drukwerk Bijbels en traktaten",
@@ -137,6 +137,21 @@ def test_eigen_logo_groot_in_voettekst(html, css):
     assert groot >= 2 * gewoon
 
 
+def test_vier_brochurebeelden_naast_hun_blok(html):
+    """Elk beeld staat in het blok waar het bij hoort, na de tekst van dat blok."""
+    verwacht = {"waarom": "img/hand-zaden.jpg", "uitgangspunten": "img/bijbel-korenveld.jpg", "projecten": "img/hand-graan.jpg", "voordeel": "img/zakken-graan.jpg"}
+    for sid, src in verwacht.items():
+        blok = html.split(f'id="{sid}"')[1].split("</section>")[0]
+        assert 'class="blok__tekst"' in blok and f'<figure class="blok__beeld"><img src="{src}"' in blok, sid
+
+
+def test_anoniem_geven_met_markeringen_zonder_inleiding(html):
+    blok = html.split('id="anoniem"')[1].split("</section>")[0]
+    assert "<mark>laat dan uw linkerhand niet weten wat uw rechterhand doet</mark>" in blok
+    assert "<mark>Die in het verborgene ziet</mark>" in blok
+    assert "Wij benadrukken het belang" not in html
+
+
 def test_geen_kopregel_bovenin(html):
     """Op verzoek van de eigenaren: geen balk met logo en downloadknop boven het titelblok."""
     assert "<header" not in html and "kopregel" not in html
@@ -237,9 +252,10 @@ def test_links_naar_beide_stichtingen_en_geen_projecturl(dom):
     assert not any("werkersindewijngaard.nl/zaadvoordezaaier" in h for h in hrefs)
 
 
-def test_brochure_downloaden_en_openen_in_nieuw_tabblad(dom):
+def test_brochure_opent_in_nieuw_tabblad_en_geen_downloadknop(dom):
+    """De brochure opent alleen via de oproep; de downloadknoppen zijn op verzoek weggehaald."""
     links = [a for t, a in dom.tags if t == "a" and a.get("href") == PDF_HREF]
-    assert any("download" in a for a in links), "downloadknop ontbreekt"
+    assert len(links) == 1 and "download" not in links[0], "alleen de oproep hoort naar de brochure te linken"
     openers = [a for a in links if a.get("target") == "_blank"]
     assert openers, "de oproep moet de brochure in een nieuw tabblad openen"
     assert all("noopener" in a.get("rel", "") for a in openers), "target=_blank vraagt om rel=noopener"
@@ -278,6 +294,6 @@ def test_print_op_a4(css):
 
 def test_gewicht():
     img_totaal = sum(p.stat().st_size for p in (ROOT / "img").iterdir() if p.is_file())
-    assert img_totaal < 1_000_000
+    assert img_totaal < 2_000_000
     assert BROCHURE.stat().st_size <= 6_000_000
     assert INDEX.stat().st_size + CSS.stat().st_size < 60_000

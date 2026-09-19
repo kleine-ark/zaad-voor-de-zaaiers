@@ -21,11 +21,15 @@ BROCHURE = ROOT / "brochure" / "zaad-voor-de-zaaier-brochure.pdf"
 
 KWALITEIT = 80
 MAX_HERO = 1800
+MAX_BEELD = 1000  # beelden naast de tekstblokken
 
 # (pagina 1-based, index in page.images) -> (bestandsnaam, max lange zijde of None voor ongewijzigd)
 BEELDEN = {
     (1, 0): ("hero-zaaier.jpg", MAX_HERO),
-    (2, 2): ("logo-werkers-in-de-wijngaard.png", None),
+    (3, 0): ("hand-zaden.jpg", MAX_BEELD),
+    (6, 0): ("bijbel-korenveld.jpg", MAX_BEELD),
+    (5, 0): ("hand-graan.jpg", MAX_BEELD),
+    (8, 0): ("zakken-graan.jpg", MAX_BEELD),
     (2, 3): ("logo-hebron-missie.png", None),
     (9, 0): ("logo-zaad-voor-de-zaaier.png", None),
 }
@@ -35,9 +39,24 @@ BEELDEN = {
 # koppeling (pagina, index) in BEELDEN waarschijnlijk verschoven door een nieuwe export.
 BRONMATEN = {
     "hero-zaaier.jpg": (1725, 2609),
-    "logo-werkers-in-de-wijngaard.png": (292, 53), "logo-hebron-missie.png": (324, 126),
+    "hand-zaden.jpg": (1296, 1936),
+    "bijbel-korenveld.jpg": (1550, 2193),
+    "hand-graan.jpg": (1730, 2457),
+    "zakken-graan.jpg": (1200, 1696),
+    "logo-hebron-missie.png": (324, 126),
     "logo-zaad-voor-de-zaaier.png": (615, 410),
 }
+
+
+# Logo's waarvan de doorzichtige rand wordt weggesneden, zodat ze hun vak vullen.
+BIJSNIJDEN = {"logo-zaad-voor-de-zaaier.png"}
+
+
+def snij_bij(im: Image.Image) -> Image.Image:
+    """Verwijdert de doorzichtige rand rond een logo (alfa tot en met 8 telt als leeg)."""
+    im = im.convert("RGBA")
+    kader = im.getchannel("A").point(lambda a: 255 if a > 8 else 0).getbbox()
+    return im.crop(kader) if kader else im
 
 
 def verklein(im: Image.Image, max_zijde: int | None) -> Image.Image:
@@ -63,6 +82,8 @@ def maak_beelden(origineel: Path) -> None:
         if im.size != BRONMATEN[naam]:
             raise SystemExit(f"{naam}: bronbeeld op pagina {pagina} is {im.size}, verwacht {BRONMATEN[naam]}; "
                              "controleer de koppeling in BEELDEN")
+        if naam in BIJSNIJDEN:
+            im = snij_bij(im)
         im = verklein(im, max_zijde)
         pad = IMG / naam
         bewaar(im, pad)
@@ -71,8 +92,8 @@ def maak_beelden(origineel: Path) -> None:
 
 def maak_favicon_en_og() -> None:
     logo = Image.open(IMG / "logo-zaad-voor-de-zaaier.png").convert("RGBA")
-    # Favicon: de zaaier-figuur (linker derde van het logo), passend in 64x64 op transparant.
-    zaaier = logo.crop((0, 0, int(logo.width * 0.34), logo.height))
+    # Favicon: de zaaier-figuur uit het bijgesneden logo (9 tot 25 procent van de breedte, links van de letters), passend in 64x64.
+    zaaier = logo.crop((int(logo.width * 0.09), 0, int(logo.width * 0.25), logo.height))
     zaaier = ImageOps.contain(zaaier, (64, 64), Image.Resampling.LANCZOS)
     fav = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
     fav.paste(zaaier, ((64 - zaaier.width) // 2, (64 - zaaier.height) // 2), zaaier)

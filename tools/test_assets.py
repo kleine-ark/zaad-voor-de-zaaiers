@@ -12,9 +12,12 @@ BROCHURE = ROOT / "brochure" / "zaad-voor-de-zaaier-brochure.pdf"
 # bestandsnaam -> maximale lange zijde (None = logo, ongewijzigd)
 GRENZEN = {
     "hero-zaaier.jpg": 1800,
+    "hand-zaden.jpg": 1000,
+    "bijbel-korenveld.jpg": 1000,
+    "hand-graan.jpg": 1000,
+    "zakken-graan.jpg": 1000,
     "logo-zaad-voor-de-zaaier.png": None,
     "logo-hebron-missie.png": None,
-    "logo-werkers-in-de-wijngaard.png": None,
 }
 AFGELEID = {"favicon.png", "og-image.jpg"}
 
@@ -33,9 +36,16 @@ def test_beeld_bestaat_en_past_binnen_grens(naam):
 
 
 def test_geen_onverwachte_bestanden_in_img():
-    """De pagina gebruikt zes beelden (geen portretten, geen ANBI-logo); alles daarbuiten is ballast in de repo."""
+    """De pagina gebruikt negen beelden (hero, vier blokbeelden, twee logo's, favicon, og-image; geen portretten); alles daarbuiten is ballast in de repo."""
     aanwezig = {p.name for p in IMG.iterdir() if p.is_file()}
     assert aanwezig == set(GRENZEN) | AFGELEID, f"onverwacht in img/: {aanwezig ^ (set(GRENZEN) | AFGELEID)}"
+
+
+def test_eigen_logo_is_bijgesneden():
+    """Geen doorzichtige rand: de tekening vult het hele bestand."""
+    im = Image.open(IMG / "logo-zaad-voor-de-zaaier.png")
+    kader = im.getchannel("A").point(lambda a: 255 if a > 8 else 0).getbbox()
+    assert kader == (0, 0, im.width, im.height)
 
 
 def test_favicon_en_og_image():
@@ -45,9 +55,9 @@ def test_favicon_en_og_image():
     assert og.size == (1200, 630)
 
 
-def test_totaal_gewicht_img_onder_1_mb():
+def test_totaal_gewicht_img_onder_2_mb():
     totaal = sum(p.stat().st_size for p in IMG.iterdir() if p.is_file())
-    assert totaal < 1_000_000, f"img/ weegt {totaal / 1e6:.2f} MB"
+    assert totaal < 2_000_000, f"img/ weegt {totaal / 1e6:.2f} MB"
 
 
 def test_brochure_pdf():
