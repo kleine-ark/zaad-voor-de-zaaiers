@@ -1,0 +1,46 @@
+name: Deploy website
+
+# Elke push naar main zet de site op de server; HTTPS gaat vanzelf aan zodra de DNS naar de server wijst.
+# Handmatig opnieuw draaien kan via Actions > Deploy website > Run workflow.
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-website
+  cancel-in-progress: true
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: webfactory/ssh-agent@v0.10.0
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
+      - name: Prepare domain hosting
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H 167.235.54.105 >> ~/.ssh/known_hosts
+          ssh root@167.235.54.105 python3 - < deploy/provision.py
+  deploy:
+    needs: prepare
+    uses: OpenAEC-Foundation/github/.github/workflows/deploy-site.yml@main
+    with:
+      deploy_path: /var/www/zaadvoordezaaiers.nl
+      deploy_source: .
+      rsync_excludes: |
+        .git/
+        .github/
+        .gitignore
+        README.md
+        deploy/
+        docs/
+        tools/
+    secrets:
+      deploy_ssh_key: ${{ secrets.DEPLOY_SSH_KEY }}

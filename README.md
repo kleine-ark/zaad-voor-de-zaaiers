@@ -20,18 +20,37 @@ bedieningspaden en grondslag) staat in de git-geschiedenis, laatst in commit `86
 
 ## Hosten
 
-De site werkt vanaf de root van deze repo (GitHub Pages: Settings → Pages → branch `main`, map `/`)
-en, dankzij relatieve paden, ook als submap op een bestaande site, bijvoorbeeld
-`werkersindewijngaard.nl/zaadvoordezaaier/`. Kopieer daarvoor `index.html`, `css/`, `img/`, `fonts/`
-en `brochure/`.
+De site komt vanzelf online op **https://www.zaadvoordezaaiers.nl**: elke push naar `main` start de
+workflow `.github/workflows/deploy.yml` (zelfde opzet als de website van Didache Dordrecht, geen
+GitHub Pages).
+
+1. `deploy/provision.py` draait via SSH op de server `167.235.54.105` en maakt of vernieuwt de
+   nginx-site voor `zaadvoordezaaiers.nl` en `www.zaadvoordezaaiers.nl`.
+2. De gedeelde deploy-workflow van OpenAEC kopieert de site met rsync naar `/var/www/zaadvoordezaaiers.nl`,
+   zonder `README.md`, `deploy/`, `docs/`, `tools/` en `.gitignore`.
+3. Zodra beide namen in de DNS naar de server wijzen, vraagt het script een Let's Encrypt-certificaat
+   aan en stuurt het alles naar `https://www.zaadvoordezaaiers.nl`. Daarvoor zijn bij TransIP deze
+   records nodig, zonder AAAA-records:
+
+   | Naam | Type | Waarde |
+   |---|---|---|
+   | `@` | A | `167.235.54.105` |
+   | `www` | A | `167.235.54.105` |
+
+   Na het aanpassen van de DNS gaat HTTPS aan bij de volgende push, of direct via
+   *Actions → Deploy website → Run workflow*.
+
+De workflow gebruikt de organisatiesecret `DEPLOY_SSH_KEY` van `kleine-ark`. Dankzij relatieve paden
+werkt de site ook als submap op een andere site; kopieer dan `index.html`, `css/`, `img/`, `fonts/`,
+`brochure/` en `robots.txt`.
 
 De site is bewust **niet vindbaar**: `index.html` draagt `noindex, nofollow, noarchive` en `robots.txt`
 schermt de brochure-PDF af (een PDF kan zelf geen noindex dragen). Zet `robots.txt` in de root van het
 domein; staat de site in een submap, neem dan de regel `Disallow: /<submap>/brochure/` over in de
 `robots.txt` van dat domein. Dit houdt zoekmachines buiten, niet mensen die de link hebben.
 
-Na publicatie: vul in `index.html` bij `og:image` de volledige URL van `img/og-image.jpg` in, zodat
-sociale media het voorbeeld tonen.
+`og:url` en `og:image` in `index.html` wijzen naar `https://www.zaadvoordezaaiers.nl/`, zodat een
+gedeelde link een voorbeeld met afbeelding toont zodra de site onder HTTPS draait.
 
 ## Opnieuw genereren
 
