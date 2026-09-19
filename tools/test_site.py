@@ -14,9 +14,14 @@ PDF_HREF = "brochure/zaad-voor-de-zaaier-brochure.pdf"
 
 # Vroege waarschuwing; de echte A4-bewaker is tools/test_print.py.
 WOORDBUDGET = 480
-SECTIE_IDS = ["top", "leren", "wat", "uitgangspunten", "positie", "voordeel"]
+SECTIE_IDS = ["top", "leren", "wat", "uitgangspunten", "positie", "projecten", "uitgaven", "voordeel"]
+# Projectenlijst 2027 zoals aangeleverd door de eigenaren (bedragen in euro's).
+PROJECTEN_2027 = [("Evangelisten Randstad", 60000), ("Evangelisatie Sjofar", 50000),
+                  ("Nieuwe evangelisten Hebron", 180000), ("Online discipelschapsvideo’s", 12000),
+                  ("Moslimevangelisatie", 250000), ("Jongerenevangelisatie", 54000)]
 # Hoofdlettergevoelig; tikfouten, verkeerde spellingen en dingen die niet op de site horen.
-VERBODEN = ["Zaaiers", "maarten.jpg", "stefan.jpg", "logo-anbi.png", "zaaiers richt", "NL.....", "Eein", "betekend", "opleverd", "vind u",
+VERBODEN = ["Zaaiers", "maarten.jpg", "stefan.jpg", "logo-anbi.png", "discipelschapsvideos",
+            "Moslim evangelisatie", "Jongeren evangelisatie", "zaaiers richt", "NL.....", "Eein", "betekend", "opleverd", "vind u",
             "luid:", "hiemee", "bedieninsvarianten", "Matth.55", "1 kor.", "word vergeleken",
             "gebeurd er", "verspreid daarmee", "stichting ondersteund", "werkt zegent", "koffie kar",
             "Philadelphia", "Filadelphia", "omdat dat wij", "<script"]
@@ -26,7 +31,8 @@ KERNINHOUD = ["We hebben het op ons hart gekregen", "2 Kor. 9:10", "Heer van de 
               "moslims", "openbare scholen", "het Woord op straat klinkt", "diaconaal werk en inloophuizen",
               "1 Kor. 15:3–4", "0 euro aan administratieve kosten", "Hebron Missie", "Bijbelschool Filadelfia",
               "Arjan Baan", "Mogen we 5 minuten van uw tijd", "Open hier de brochure",
-              "richt zich op het financieel ondersteunen van"]
+              "richt zich op het financieel ondersteunen van", "2027 projecten",
+              "Waar wordt het geld aan uitgegeven?", "Inkomen werkers", "Drukwerk Bijbels en traktaten"]
 STICHTINGEN = ("https://www.hebronmissie.nl", "https://www.werkersindewijngaard.nl")
 TOKENS = ["--bruin", "--creme", "--papier", "--geel", "--oranje", "--sage", "--lichtblauw",
           "--lei", "--groen", "--roodbruin", "--tekst"]
@@ -157,6 +163,13 @@ def test_kerninhoud_in_leesbare_tekst(dom):
     tekst = re.sub(r"\s+", " ", " ".join(dom.main_tekst + dom.voet_tekst))
     for term in KERNINHOUD:
         assert term in tekst, f"ontbreekt in de leesbare tekst: {term!r}"
+
+
+def test_projecten_2027_met_exacte_bedragen(html):
+    """Namen en bedragen in de tabel komen een-op-een overeen met de aangeleverde lijst."""
+    rijen = re.findall(r'<tr><th scope="row">([^<]+)</th><td>€&nbsp;([\d.]+)</td></tr>', html)
+    gevonden = [(naam, int(bedrag.replace(".", ""))) for naam, bedrag in rijen]
+    assert gevonden == PROJECTEN_2027
 
 
 def test_geen_verboden_tekst(html):

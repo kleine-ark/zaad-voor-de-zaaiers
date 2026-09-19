@@ -60,7 +60,9 @@ De tekst van de voorpagina is door de eigenaren aangeleverd (2026-09-19) en lich
 de naam is overal "Zaad voor de Zaaier"; taalcorrecties ("hiermee", "ons werk zegent", "koffiekar",
 "moslims", "in het verspreiden"); de school heet volgens haar eigen site "Bijbelschool Filadelfia";
 de afgebroken toevoeging "voor zover" achter "Verspreiding van het evangelie online" is weggelaten
-tot hij wordt aangevuld. Het paneel "Meedoen" (IBAN, tenaamstelling, fiscale regels) is op verzoek van de eigenaren van de
+tot hij wordt aangevuld. In de projectenlijst 2027 zijn de bedragen overgenomen zoals aangeleverd;
+alleen de spelling is aangepast ("Randstad", "discipelschapsvideo’s", "Moslimevangelisatie",
+"Jongerenevangelisatie"). Er staat geen totaalregel, omdat die niet is aangeleverd. Het paneel "Meedoen" (IBAN, tenaamstelling, fiscale regels) is op verzoek van de eigenaren van de
 pagina gehaald; de pagina bevat geen giftgegevens meer. Let op: de brochure-PDF heeft op de plek
 van het IBAN een invulveld.
 De brochure-PDF is de bestaande brochure, inclusief de bekende onvolkomenheden (invulveld bij het

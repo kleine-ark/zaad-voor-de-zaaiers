@@ -130,6 +130,12 @@ em { font-style: normal; text-decoration: underline; text-decoration-thickness: 
 .uitlichting { background: var(--geel); color: var(--bruin); border-radius: 10px; padding: .6rem .9rem; font-weight: 700; }
 .citaatblok { margin: 0; background: var(--creme); border-left: 5px solid var(--oranje); border-radius: 0 10px 10px 0; padding: .75rem 1rem; }
 .citaatblok p { margin: 0; }
+/* Projectenlijst met bedragen: naam links, bedrag rechts in cijfers van gelijke breedte. */
+.begroting { width: 100%; border-collapse: collapse; margin: 0 0 .5rem; font-variant-numeric: tabular-nums; }
+.begroting th, .begroting td { padding: .5rem .75rem; text-align: left; border-bottom: 1px solid rgba(59, 35, 20, .15); }
+.begroting th { font-weight: 600; }
+.begroting td { text-align: right; font-weight: 700; white-space: nowrap; color: var(--bruin); }
+.begroting tr:nth-child(odd) { background: var(--creme); }
 .oproep { margin-top: 1.25rem; background: var(--creme); border-radius: var(--radius); padding: 1rem 1.25rem; box-shadow: var(--schaduw); }
 .oproep p { font-family: var(--kopletter); font-size: 1.5rem; line-height: 1.1; letter-spacing: .02em; text-transform: uppercase; color: var(--bruin); margin: 0 0 .6rem; }
 
@@ -172,6 +178,9 @@ em { font-style: normal; text-decoration: underline; text-decoration-thickness: 
   .citaatblok { border-left-width: 4px; border-radius: 0; }
   .oproep p { font-size: 12pt; margin-bottom: 0; }
   .oproep .knop { display: none; }
+  .begroting { break-inside: avoid; }
+  .begroting th, .begroting td { padding: .12rem .4rem; }
+  .begroting tr:nth-child(odd) { background: none; }
   /* URL achter links waarvan de tekst niet al het adres is. */
   a[href^="http"]:not(.url)::after { content: ' (' attr(href) ')'; font-size: .85em; }
   h2, h3 { break-after: avoid; }
