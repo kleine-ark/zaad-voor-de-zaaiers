@@ -128,6 +128,15 @@ def test_vragen_van_de_gever_als_lijst(html):
     assert lijst.count("<li>") == 6
 
 
+def test_eigen_logo_groot_in_voettekst(html, css):
+    """Onderin staat het logo van Zaad voor de Zaaier groter dan de twee stichtingslogo's."""
+    voet = html.split("<footer")[1]
+    assert 'class="voet__logo--groot"><a href="#top"><img src="img/logo-zaad-voor-de-zaaier.png"' in voet
+    groot = int(re.search(r"\.voet__logo--groot img \{ max-height: (\d+)px", css).group(1))
+    gewoon = int(re.search(r"\.voet__logos img \{ max-height: (\d+)px", css).group(1))
+    assert groot >= 2 * gewoon
+
+
 def test_geen_kopregel_bovenin(html):
     """Op verzoek van de eigenaren: geen balk met logo en downloadknop boven het titelblok."""
     assert "<header" not in html and "kopregel" not in html

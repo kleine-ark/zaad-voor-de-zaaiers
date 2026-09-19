@@ -152,6 +152,10 @@ em { font-style: normal; text-decoration: underline; text-decoration-thickness: 
 .voet__logos { list-style: none; padding: 0; margin: 0 0 1.25rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
 .voet__logos a { display: flex; align-items: center; justify-content: center; height: 84px; padding: .6rem 1rem; background: var(--creme); border-radius: 10px; }
 .voet__logos img { max-height: 64px; width: auto; }
+/* Het eigen logo groot op een eigen regel, de twee stichtingen eronder. */
+.voet__logos .voet__logo--groot { flex-basis: 100%; display: flex; justify-content: center; }
+.voet__logo--groot a { height: 168px; padding: .9rem 1.5rem; }
+.voet__logo--groot img { max-height: 140px; }
 .voet .knop { color: var(--bruin); margin-top: .5rem; }
 /* Tenaamstelling met het rekeningnummer groot eronder; in een keer te selecteren. */
 .voet__rekening { font-size: 1.1rem; font-weight: 600; margin-bottom: .9rem; }
