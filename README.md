@@ -28,17 +28,17 @@ GitHub Pages).
    nginx-site voor `zaadvoordezaaiers.nl` en `www.zaadvoordezaaiers.nl`.
 2. De gedeelde deploy-workflow van OpenAEC kopieert de site met rsync naar `/var/www/zaadvoordezaaiers.nl`,
    zonder `README.md`, `deploy/`, `docs/`, `tools/` en `.gitignore`.
-3. Zodra beide namen in de DNS naar de server wijzen, vraagt het script een Let's Encrypt-certificaat
-   aan en stuurt het alles naar `https://www.zaadvoordezaaiers.nl`. Daarvoor zijn bij TransIP deze
-   records nodig, zonder AAAA-records:
+3. Sinds 21 september 2026 wijzen beide namen naar de server en draait de site onder HTTPS: het script
+   heeft toen een Let's Encrypt-certificaat aangevraagd en stuurt alles naar
+   `https://www.zaadvoordezaaiers.nl`. Certbot vernieuwt het certificaat zelf. De records bij TransIP,
+   zonder AAAA-records:
 
    | Naam | Type | Waarde |
    |---|---|---|
    | `@` | A | `167.235.54.105` |
    | `www` | A | `167.235.54.105` |
 
-   Na het aanpassen van de DNS gaat HTTPS aan bij de volgende push, of direct via
-   *Actions → Deploy website → Run workflow*.
+   Een nieuwe deploy zonder push kan via *Actions → Deploy website → Run workflow*.
 
 De workflow gebruikt de organisatiesecret `DEPLOY_SSH_KEY` van `kleine-ark`. Dat werkt omdat deze repo
 openbaar is: de organisatie zit op GitHub Free, en daar krijgen privé-repo's organisatiesecrets niet
@@ -54,7 +54,7 @@ domein; staat de site in een submap, neem dan de regel `Disallow: /<submap>/broc
 `robots.txt` van dat domein. Dit houdt zoekmachines buiten, niet mensen die de link hebben.
 
 `og:url` en `og:image` in `index.html` wijzen naar `https://www.zaadvoordezaaiers.nl/`, zodat een
-gedeelde link een voorbeeld met afbeelding toont zodra de site onder HTTPS draait.
+gedeelde link een voorbeeld met afbeelding toont.
 
 ## Delen als artefact
 
@@ -98,11 +98,16 @@ tot hij wordt aangevuld. In "Waarom Zaad voor de Zaaier?" zijn tikfouten herstel
 dubbel "sommige", "waardeoordeel" aaneen, "christen" met kleine letter, vraagteken bij de vraag over diaconaal werk). In de projectenlijst 2027 zijn de bedragen overgenomen zoals aangeleverd;
 alleen de spelling is aangepast ("Randstad", "discipelschapsvideo’s", "Moslimevangelisatie",
 "Jongerenevangelisatie"). De totaalregel (€ 599.000) is de som van de zes bedragen; een test bewaakt dat hij klopt als een bedrag wijzigt. Het paneel "Meedoen" (IBAN, tenaamstelling, fiscale regels) is op verzoek van de eigenaren van de
-pagina gehaald; onderaan de pagina staan alleen nog "Stichting Werkers in de Wijngaard" en het rekeningnummer. Let op: de brochure-PDF heeft op de plek
-van het IBAN een invulveld.
-De brochure-PDF is de bestaande brochure, inclusief de bekende onvolkomenheden (invulveld bij het
-IBAN, werknotitie op pagina 14, taalfouten); nu de voorpagina ernaar verwijst, is een nieuwe export
-uit Canva de moeite waard.
+pagina gehaald; onderaan de pagina staan alleen nog "Stichting Werkers in de Wijngaard" en het rekeningnummer.
+Op 2026-09-23 hebben de eigenaren "We leren hieruit" en het begin van "Waarom Zaad voor de Zaaier?"
+zelf herschreven en aangevuld; de printletter ging daarvoor van 8,5 naar 8 pt, zodat de pagina op één A4 blijft.
+
+De brochure-PDF is de bestaande brochure, met sinds 2026-09-23 een opgeplakt rekeningblok op
+pagina 8 (IBAN, t.n.v., kenmerk). Het Canva-origineel heeft daar nog "NL.....": maakt
+`tools/build-assets.py` de PDF opnieuw uit dat origineel, dan valt het rekeningnummer weg (een test
+slaat dan alarm). Het opgeplakte blok bedekt ook grotendeels de kop "Zekerheden:". Verder bekende
+onvolkomenheden: werknotitie op pagina 14, taalfouten. Een nieuwe export uit Canva, met het
+rekeningnummer erin, lost dit allemaal op.
 
 Ter controle door de eigenaren: de brochure noemt de periodieke gift "volledig aftrekbaar,
 zonder drempel of maximum"; sinds 2023 kent de inkomstenbelasting wel een plafond voor
