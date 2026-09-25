@@ -102,12 +102,16 @@ pagina gehaald; onderaan de pagina staan alleen nog "Stichting Werkers in de Wij
 Op 2026-09-23 hebben de eigenaren "We leren hieruit" en het begin van "Waarom Zaad voor de Zaaier?"
 zelf herschreven en aangevuld; de printletter ging daarvoor van 8,5 naar 8 pt, zodat de pagina op één A4 blijft.
 
-De brochure-PDF is de bestaande brochure, met sinds 2026-09-23 een opgeplakt rekeningblok op
-pagina 8 (IBAN, t.n.v., kenmerk). Het Canva-origineel heeft daar nog "NL.....": maakt
-`tools/build-assets.py` de PDF opnieuw uit dat origineel, dan valt het rekeningnummer weg (een test
-slaat dan alarm). Het opgeplakte blok bedekt ook grotendeels de kop "Zekerheden:". Verder bekende
-onvolkomenheden: werknotitie op pagina 14, taalfouten. Een nieuwe export uit Canva, met het
-rekeningnummer erin, lost dit allemaal op.
+De brochure-PDF is de bestaande brochure met twee aanpassingen buiten Canva om:
+
+- sinds 2026-09-23 een opgeplakt rekeningblok op pagina 8 (IBAN, t.n.v., kenmerk); het bedekt ook
+  grotendeels de kop "Zekerheden:";
+- sinds 2026-09-25 "Gospel Mission" in plaats van "Gospel Image" op pagina 2 en 3 (de bijbelschool
+  van Hebron Missie), opnieuw gezet in de oorspronkelijke letters.
+
+Het Canva-origineel heeft beide nog niet: maakt `tools/build-assets.py` de PDF opnieuw uit dat
+origineel, dan vallen ze weg (tests slaan dan alarm). Verder bekende onvolkomenheden: werknotitie
+op pagina 14, taalfouten. Een nieuwe export uit Canva met beide aanpassingen erin lost dit allemaal op.
 
 Ter controle door de eigenaren: de brochure noemt de periodieke gift "volledig aftrekbaar,
 zonder drempel of maximum"; sinds 2023 kent de inkomstenbelasting wel een plafond voor

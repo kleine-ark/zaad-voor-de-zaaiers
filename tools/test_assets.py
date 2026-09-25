@@ -71,3 +71,10 @@ def test_brochure_heeft_rekeningnummer():
     Maakt build-assets.py de PDF opnieuw uit dat origineel, dan valt het rekeningnummer weg."""
     tekst = PdfReader(str(BROCHURE)).pages[7].extract_text()
     assert "NL83 RABO 0310 5957 62" in tekst, "rekeningnummer ontbreekt op pagina 8 van de brochure"
+
+
+def test_brochure_noemt_gospel_mission():
+    """De bijbelschool van Hebron Missie heet Gospel Mission; de brochure noemde haar eerst 'Gospel Image'."""
+    tekst = " ".join(" ".join(p.extract_text().split()) for p in PdfReader(str(BROCHURE)).pages)
+    assert "Gospel Image" not in tekst
+    assert tekst.count("Gospel Mission") == 2, "Gospel Mission hoort op pagina 2 en 3 te staan"
