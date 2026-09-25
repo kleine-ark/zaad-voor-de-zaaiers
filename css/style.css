@@ -170,18 +170,18 @@ mark { background: var(--geel); color: var(--bruin); padding: 0 .2em; border-rad
 /* ===== Print: de hele pagina op een A4 ===== */
 @media print {
   @page { size: A4; margin: 9mm; }
-  html { font-size: 8.5pt; }
-  body { background: #fff; color: #000; line-height: 1.3; }
+  html { font-size: 8pt; }
+  body { background: #fff; color: #000; line-height: 1.27; }
   /* Foto en voettekst blijven weg. Een kolommenblok eist in print de rest van de pagina op,
      dus de voettekstregel staat als .alleen-print aan het eind van de kolommen. */
   .skip-link, .kopband__img, .kopband::before, .voet { display: none; }
-  .alleen-print { display: block; font-size: 8.5pt; border-top: 1px solid var(--bruin); padding-top: .3rem; margin: .6rem 0 0; break-inside: avoid; }
+  .alleen-print { display: block; font-size: 8pt; border-top: 1px solid var(--bruin); padding-top: .3rem; margin: .6rem 0 0; break-inside: avoid; }
   .wrap { max-width: none; padding-inline: 0; }
   .kopband { min-height: 0; display: block; color: var(--bruin); overflow: visible; }
   .kopband__inhoud { padding: 0 0 .5rem; }
-  .kopband h1 { color: var(--bruin); font-size: 20pt; }
-  .kopband__intro { color: var(--roodbruin); font-size: 11pt; }
-  .kopband__citaat { font-size: 13pt; }
+  .kopband h1 { color: var(--bruin); font-size: 18pt; }
+  .kopband__intro { color: var(--roodbruin); font-size: 10pt; }
+  .kopband__citaat { font-size: 12pt; }
   .kopband__vlak { background: none; padding: 0; max-width: none; }
   .kopband__citaat q { color: var(--roodbruin); }
   .kopband__citaat .verw { color: var(--bruin); }

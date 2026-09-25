@@ -12,9 +12,9 @@ CSS = ROOT / "css" / "style.css"
 BROCHURE = ROOT / "brochure" / "zaad-voor-de-zaaier-brochure.pdf"
 PDF_HREF = "brochure/zaad-voor-de-zaaier-brochure.pdf"
 
-# Vroege waarschuwing; de echte A4-bewaker is tools/test_print.py. Bij 661 woorden eindigde de
-# afdruk (8,5 pt) op 278 van 288 mm, dus rond 700 woorden is de pagina vol.
-WOORDBUDGET = 700
+# Vroege waarschuwing; de echte A4-bewaker is tools/test_print.py. Bij 856 woorden eindigt de
+# afdruk (8 pt, regelafstand 1,27) op 281 van 288 mm, dus rond 900 woorden is de pagina vol.
+WOORDBUDGET = 900
 SECTIE_IDS = ["top", "leren", "waarom", "wat", "uitgangspunten", "positie", "anoniem", "projecten", "uitgaven", "voordeel"]
 # Projectenlijst 2027 zoals aangeleverd door de eigenaren (bedragen in euro's).
 PROJECTEN_2027 = [("Evangelisten Randstad", 60000), ("Evangelisatie landelijk", 48000),
@@ -27,14 +27,14 @@ VERBODEN = ["Zaaiers", "logo-werkers-in-de-wijngaard.png", "daar nu ook echt doo
             "gebeurd er", "verspreid daarmee", "stichting ondersteund", "werkt zegent", "koffie kar",
             "Philadelphia", "Filadelphia", "omdat dat wij", "inloophuizen", "<script"]
 # Moet in de leesbare tekst van main + voettekst staan (niet alleen in alt-teksten of attributen).
-KERNINHOUD = ["We hebben het op ons hart gekregen", "2 Kor. 9:10", "Heer van de oogst", "welvaartsevangelie",
+KERNINHOUD = ["We hebben het op ons hart gekregen", "2 Kor. 9:10", "Heer van het zaad en de oogst", "het zaad is tweeledig", "welvaartsevangelie",
               "Werkers in de Wijngaard", "ANBI", "faciliteert sinds 2010 mensen", "Straatevangelisatie", "Kraam met boeken", "koffiekar",
               "moslims", "openbare scholen", "het Woord op straat klinkt",
               "1 Kor. 15:3–4", "0 euro aan administratieve kosten", "Anonimiteit;", "Hebron Missie", "Bijbelschool Filadelfia",
               "Arjan Baan", "Mogen we 5 minuten van uw tijd", "Open hier de brochure",
               "richt zich op het financieel ondersteunen van", "2027 projecten",
               "Waar wordt het geld aan uitgegeven?", "Inkomen werkers", "Drukwerk Bijbels en traktaten",
-              "Waarom Zaad voor de Zaaier?", "een goed geefdoel te vinden", "waterputdonaties", "waardeoordeel",
+              "Waarom Zaad voor de Zaaier?", "geestelijke kompas", "Zijn we al niet te lang stil geweest?", "een goed geefdoel te vinden", "waterputdonaties", "waardeoordeel",
               "zelfstandige evangelist, dan is het doorgaans niet anoniem",
               "Ik vind het lastig om een geefdoel te beoordelen, elk jaar weer opnieuw", "is het betrouwbaar?",
               "maar ik wil graag dat het evangelie meer verkondigd wordt",

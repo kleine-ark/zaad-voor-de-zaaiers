@@ -64,3 +64,10 @@ def test_brochure_pdf():
     assert BROCHURE.exists(), "download-PDF ontbreekt; draai python tools/build-assets.py"
     assert BROCHURE.stat().st_size <= 6_000_000, f"PDF weegt {BROCHURE.stat().st_size / 1e6:.2f} MB"
     assert len(PdfReader(str(BROCHURE)).pages) == 14
+
+
+def test_brochure_heeft_rekeningnummer():
+    """Pagina 8 draagt het rekeningnummer als opgeplakt blok; het Canva-origineel nog niet.
+    Maakt build-assets.py de PDF opnieuw uit dat origineel, dan valt het rekeningnummer weg."""
+    tekst = PdfReader(str(BROCHURE)).pages[7].extract_text()
+    assert "NL83 RABO 0310 5957 62" in tekst, "rekeningnummer ontbreekt op pagina 8 van de brochure"
